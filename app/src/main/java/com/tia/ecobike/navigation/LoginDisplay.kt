@@ -1,5 +1,6 @@
 package com.tia.ecobike.navigation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,6 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,7 +37,7 @@ fun LoginDisplays() {
         mutableStateOf("")
     }
     var isPasswordVisible by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
 
     fun isDark(): Color {
@@ -49,10 +52,10 @@ fun LoginDisplays() {
     }
     Column(modifier = Modifier.fillMaxSize()) {
         Card(
-            onClick = { /*TODO*/ },
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.3F),
+                .fillMaxHeight(0.3F)
+                .clickable(enabled = false, onClick = {}),
             backgroundColor = Greenify,
             shape = RoundedCornerShape(bottomStart = 76.dp)
         ) {
@@ -147,7 +150,17 @@ fun LoginDisplays() {
                     textColor = isDark(),
                     unfocusedIndicatorColor = isDark(),
                     focusedIndicatorColor = isDark()
-                ), maxLines = 1, singleLine = true
+                ),
+                maxLines = 1,
+                singleLine = true,
+                visualTransformation = when (isPasswordVisible) {
+                    true -> {
+                        PasswordVisualTransformation()
+                    }
+                    false -> {
+                        VisualTransformation.None
+                    }
+                }
 
             )
         }
@@ -156,7 +169,9 @@ fun LoginDisplays() {
             Button(
                 onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Greenify),
-                modifier = Modifier.fillMaxWidth(0.7F).clip(RoundedCornerShape(28.dp))
+                modifier = Modifier
+                    .fillMaxWidth(0.7F)
+                    .clip(RoundedCornerShape(28.dp))
             ) {
                 Text(
                     text = "Sign In",

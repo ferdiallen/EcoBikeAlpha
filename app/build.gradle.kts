@@ -11,7 +11,7 @@ android {
         minSdk = 24
         targetSdk = 31
         versionCode = 1
-        versionName = "0.1-alpha"
+        versionName = "0.2-alpha"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -72,4 +72,8 @@ dependencies {
     //Navigation
     implementation("androidx.navigation:navigation-compose:2.4.0-beta02")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
+
+    //Accompanist
+    val accompanistVersion = "0.21.1-beta"
+    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
 }

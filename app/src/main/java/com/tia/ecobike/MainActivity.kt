@@ -5,15 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.tia.ecobike.navigation.LoginDisplays
 import com.tia.ecobike.navigators.NavigatorQueue
+import com.tia.ecobike.ui.theme.Greenify
 
 class MainActivity : ComponentActivity() {
     private lateinit var navController: NavHostController
+
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +31,10 @@ class MainActivity : ComponentActivity() {
 @ExperimentalMaterialApi
 @Composable
 fun AdminController(nav: NavHostController) {
+    val sysbarcolor = rememberSystemUiController()
+    SideEffect {
+        sysbarcolor.setStatusBarColor(color = Greenify)
+    }
     NavHost(
         navController = nav,
         startDestination = NavigatorQueue.Login.route
