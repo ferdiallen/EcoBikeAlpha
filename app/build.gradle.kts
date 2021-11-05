@@ -66,9 +66,10 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
     //Coroutines
-    implementation( "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation( "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 
     //Navigation
     implementation("androidx.navigation:navigation-compose:2.4.0-beta02")
+    implementation("androidx.compose.material:material-icons-extended:$composeVersion")
 }
