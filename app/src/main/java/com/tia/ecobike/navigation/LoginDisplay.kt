@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -155,7 +156,7 @@ fun LoginDisplays() {
             Button(
                 onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Greenify),
-                modifier = Modifier.fillMaxWidth(0.7F)
+                modifier = Modifier.fillMaxWidth(0.7F).clip(RoundedCornerShape(28.dp))
             ) {
                 Text(
                     text = "Sign In",
