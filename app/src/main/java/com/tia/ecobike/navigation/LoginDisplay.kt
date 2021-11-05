@@ -1,5 +1,6 @@
 package com.tia.ecobike.navigation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -12,9 +13,12 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -23,6 +27,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tia.ecobike.R
 import com.tia.ecobike.ui.theme.Greenify
 
 @ExperimentalMaterialApi
@@ -180,6 +185,54 @@ fun LoginDisplays() {
                     textAlign = TextAlign.Center
                 )
             }
+        }
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 48.dp, top = 32.dp, end = 48.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Divider(modifier = Modifier.weight(1F), color = Color.Gray, thickness = 1.dp)
+            Text(
+                text = " Or sign In with Google ",
+                color = Color.Gray,
+                textAlign = TextAlign.Center
+            )
+            Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.weight(1F))
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        IconButton(onClick = { /*TODO*/ }, modifier = Modifier.align(CenterHorizontally)) {
+            Image(
+                painter = painterResource(id = R.drawable.google),
+                contentDescription = "google button"
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+        ) {
+            Row(
+                modifier = Modifier
+                    .align(BottomCenter)
+                    .padding(bottom = 12.dp)
+            ) {
+                Text(
+                    text = "Don't have an account ? ",
+                    fontSize = 15.sp,
+                    color = Color.Gray
+                )
+                Text(
+                    text = "Sign up",
+                    fontSize = 15.sp,
+                    color = Color.Blue, modifier = Modifier.clickable {
+
+                    }
+                )
+
+            }
+
         }
     }
 }
