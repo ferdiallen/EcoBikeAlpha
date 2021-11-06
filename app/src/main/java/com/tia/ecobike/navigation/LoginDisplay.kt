@@ -21,18 +21,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.tia.ecobike.R
+import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.Greenify
 
 @ExperimentalMaterialApi
 @Composable
-fun LoginDisplays() {
+fun LoginDisplays(navcon: NavHostController) {
     val dark = isSystemInDarkTheme()
     val typho = MaterialTheme.typography
     var email by rememberSaveable {
@@ -109,7 +114,10 @@ fun LoginDisplays() {
                     .padding(top = 8.dp)
                     .fillMaxWidth(0.8F)
                     .height(50.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Done
+                ),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = isDark(),
                     unfocusedIndicatorColor = isDark(),
@@ -137,7 +145,10 @@ fun LoginDisplays() {
                 modifier = Modifier
                     .fillMaxWidth(0.8F)
                     .height(50.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
+                ),
                 trailingIcon = {
                     val images = when (isPasswordVisible) {
                         true -> Icons.Filled.Visibility
@@ -167,6 +178,14 @@ fun LoginDisplays() {
                     }
                 }
 
+            )
+            Text(
+                text = "Forgot Password ?",
+                modifier = Modifier
+                    .padding(top = 4.dp)
+                    .clickable {
+                        navcon.navigate(NavigatorQueue.Forgot.route)
+                    }, color = Color.Gray
             )
         }
         Spacer(modifier = Modifier.height(24.dp))
@@ -242,4 +261,11 @@ fun LoginDisplays() {
 
         }
     }
+}
+
+@ExperimentalMaterialApi
+@Preview(showSystemUi = true)
+@Composable
+fun Preview() {
+    LoginDisplays(navcon = rememberNavController())
 }

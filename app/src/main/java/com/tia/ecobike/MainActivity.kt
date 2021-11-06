@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.tia.ecobike.navigation.ForgotDisplay
 import com.tia.ecobike.navigation.LoginDisplays
 import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.Greenify
@@ -43,10 +44,10 @@ fun AdminController(nav: NavHostController) {
 
         }
         composable(route = NavigatorQueue.Login.route) {
-            LoginDisplays()
+            LoginDisplays(navcon = nav)
         }
-        composable(route = NavigatorQueue.Register.route) {
-
+        composable(route = NavigatorQueue.Forgot.route) {
+            ForgotDisplay()
         }
     }
 }
