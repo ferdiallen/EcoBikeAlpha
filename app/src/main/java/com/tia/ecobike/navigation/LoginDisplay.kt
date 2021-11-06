@@ -202,10 +202,17 @@ fun LoginDisplays() {
             Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.weight(1F))
         }
         Spacer(modifier = Modifier.height(12.dp))
-        IconButton(onClick = { /*TODO*/ }, modifier = Modifier.align(CenterHorizontally)) {
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .width(63.dp)
+                .height(34.dp)
+                .align(CenterHorizontally),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.google),
-                contentDescription = "google button"
+                contentDescription = "google button", modifier = Modifier.size(20.dp)
             )
         }
         Box(
