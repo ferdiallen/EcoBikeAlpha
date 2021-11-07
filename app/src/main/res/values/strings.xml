@@ -3,4 +3,5 @@
     <string name="forgot_password_notifier">We have sent a verification code to your email.\n Please Check your inbox or spambox.</string>
     <string name="lupa_pw">Forget Password</string>
     <string name="new_pass">New Password</string>
+    <string name="email_instructor_forgot_pass">Please Enter Your Email Address to Receive a verification code</string>
 </resources>
