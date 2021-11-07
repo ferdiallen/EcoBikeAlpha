@@ -18,6 +18,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.tia.ecobike.navigation.ForgotDisplay
 import com.tia.ecobike.navigation.LoginDisplays
 import com.tia.ecobike.navigators.NavigatorQueue
+import com.tia.ecobike.ui.theme.EcoBikeTheme
 import com.tia.ecobike.ui.theme.Greenify
 
 class MainActivity : ComponentActivity() {
@@ -28,8 +29,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            navController = rememberNavController()
-            AdminController(nav = navController)
+            EcoBikeTheme {
+                navController = rememberNavController()
+                AdminController(nav = navController)
+            }
         }
     }
 }
@@ -42,13 +45,13 @@ fun AdminController(nav: NavHostController) {
     val currentstack by nav.currentBackStackEntryAsState()
     val uiState = isSystemInDarkTheme()
     fun isDarkOrLight(): Boolean {
-       return when (uiState){
-            true->{
+        return when (uiState) {
+            true -> {
                 false
             }
-           false->{
-               true
-           }
+            false -> {
+                true
+            }
         }
     }
     when (currentstack?.destination?.route) {

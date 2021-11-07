@@ -2,12 +2,12 @@ package com.tia.ecobike.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.runtime.Composable
@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Bottom
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -23,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,8 +36,19 @@ import com.tia.ecobike.ui.theme.GreyLight
 @ExperimentalFoundationApi
 @Composable
 fun ForgotDisplay(nav: NavHostController) {
-    var newpassword by rememberSaveable {
+    var emailaddr by rememberSaveable {
         mutableStateOf("")
+    }
+    val isSystemDark = isSystemInDarkTheme()
+    fun isDark(): Color {
+        return when (isSystemDark) {
+            true -> {
+                Color.White
+            }
+            false -> {
+                Color.Black
+            }
+        }
     }
     Column(
         Modifier
@@ -54,13 +67,15 @@ fun ForgotDisplay(nav: NavHostController) {
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBackIos,
-                    contentDescription = "Back Arrow", modifier = Modifier.align(Center)
+                    contentDescription = "Back Arrow",
+                    modifier = Modifier.align(Center),
+                    tint = isDark()
                 )
             }
             Text(
                 text = "Forgot Password",
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center, fontSize = 18.sp
+                textAlign = TextAlign.Center, fontSize = 18.sp, color = isDark()
             )
         }
         Spacer(modifier = Modifier.height(44.dp))
@@ -117,16 +132,52 @@ fun ForgotDisplay(nav: NavHostController) {
             color = Color.Gray,
             textAlign = TextAlign.Center,
             fontSize = 20.sp,
-            modifier = Modifier.fillMaxWidth().padding(start = 24.dp,end = 24.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 24.dp, end = 24.dp)
         )
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Text(
             text = "Email Address",
             fontWeight = FontWeight.Bold,
             color = Color.Gray,
             fontSize = 14.sp,
-            modifier = Modifier.fillMaxWidth().padding(start = 36.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 36.dp)
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(
+            value = emailaddr,
+            onValueChange = {
+                emailaddr = it
+            },
+            modifier = Modifier
+                .fillMaxWidth(0.8F)
+                .height(50.dp)
+                .align(CenterHorizontally),
+            colors = TextFieldDefaults.textFieldColors(
+                focusedIndicatorColor = isDark(),
+                unfocusedIndicatorColor = isDark(), textColor = isDark()
+            ),
+            maxLines = 1,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+        )
+        Row(
+            Modifier
+                .fillMaxSize()
+                .padding(bottom = 24.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Button(
+                onClick = { /*TODO*/ }, modifier = Modifier
+                    .fillMaxWidth(0.4F)
+                    .clip(RoundedCornerShape(20.dp))
+                    .align(Bottom), colors = ButtonDefaults.buttonColors(backgroundColor = Greenify)
+            ) {
+                Text(text = "Send",color = Color.White,textAlign = TextAlign.Center)
+            }
+        }
     }
-
 }
