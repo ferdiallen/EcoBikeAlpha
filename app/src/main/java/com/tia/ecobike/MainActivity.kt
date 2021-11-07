@@ -6,12 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
-import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -73,7 +70,7 @@ fun AdminController(nav: NavHostController) {
             LoginDisplays(navcon = nav)
         }
         composable(route = NavigatorQueue.Forgot.route) {
-            ForgotDisplay()
+            ForgotDisplay(nav)
         }
     }
 }
