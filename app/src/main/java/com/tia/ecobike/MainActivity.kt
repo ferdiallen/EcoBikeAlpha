@@ -3,12 +3,19 @@ package com.tia.ecobike
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.tia.ecobike.navigation.ForgotDisplay
@@ -19,6 +26,7 @@ import com.tia.ecobike.ui.theme.Greenify
 class MainActivity : ComponentActivity() {
     private lateinit var navController: NavHostController
 
+    @ExperimentalFoundationApi
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +37,30 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun AdminController(nav: NavHostController) {
     val sysbarcolor = rememberSystemUiController()
-    SideEffect {
-        sysbarcolor.setStatusBarColor(color = Greenify)
+    val currentstack by nav.currentBackStackEntryAsState()
+    val uiState = isSystemInDarkTheme()
+    fun isDarkOrLight(): Boolean {
+       return when (uiState){
+            true->{
+                false
+            }
+           false->{
+               true
+           }
+        }
+    }
+    when (currentstack?.destination?.route) {
+        NavigatorQueue.Login.route -> {
+            sysbarcolor.setStatusBarColor(Greenify)
+        }
+        NavigatorQueue.Forgot.route -> {
+            sysbarcolor.setStatusBarColor(Color.Transparent, darkIcons = isDarkOrLight())
+        }
     }
     NavHost(
         navController = nav,

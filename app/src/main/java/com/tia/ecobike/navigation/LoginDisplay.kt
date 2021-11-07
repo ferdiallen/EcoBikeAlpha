@@ -1,9 +1,12 @@
 package com.tia.ecobike.navigation
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -17,6 +20,7 @@ import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -34,12 +38,16 @@ import androidx.navigation.compose.rememberNavController
 import com.tia.ecobike.R
 import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.Greenify
+import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun LoginDisplays(navcon: NavHostController) {
     val dark = isSystemInDarkTheme()
     val typho = MaterialTheme.typography
+    val bringint = BringIntoViewRequester()
+    val scope = rememberCoroutineScope()
     var email by rememberSaveable {
         mutableStateOf("")
     }
@@ -144,7 +152,15 @@ fun LoginDisplays(navcon: NavHostController) {
                 },
                 modifier = Modifier
                     .fillMaxWidth(0.8F)
-                    .height(50.dp),
+                    .height(50.dp)
+                    .bringIntoViewRequester(bringint)
+                    .onFocusEvent {
+                        if (it.isFocused) {
+                            scope.launch {
+                                bringint.bringIntoView()
+                            }
+                        }
+                    },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
@@ -263,6 +279,7 @@ fun LoginDisplays(navcon: NavHostController) {
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Preview(showSystemUi = true)
 @Composable

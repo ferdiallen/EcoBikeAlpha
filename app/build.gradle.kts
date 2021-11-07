@@ -76,4 +76,5 @@ dependencies {
     //Accompanist
     val accompanistVersion = "0.21.1-beta"
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
+    implementation("com.google.accompanist:accompanist-insets:$accompanistVersion")
 }
