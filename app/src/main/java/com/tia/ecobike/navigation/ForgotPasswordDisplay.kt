@@ -39,10 +39,3 @@ fun ForgotDisplay() {
     }
 
 }
-
-@ExperimentalFoundationApi
-@Preview
-@Composable
-fun Previews() {
-    ForgotDisplay()
-}

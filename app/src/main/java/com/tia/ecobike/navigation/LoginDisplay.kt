@@ -279,10 +279,3 @@ fun LoginDisplays(navcon: NavHostController) {
     }
 }
 
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@Preview(showSystemUi = true)
-@Composable
-fun Preview() {
-    LoginDisplays(navcon = rememberNavController())
-}
