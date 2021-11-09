@@ -30,11 +30,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.tia.ecobike.R
 import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.Greenify
@@ -204,23 +202,6 @@ fun LoginDisplays(navcon: NavHostController) {
                     }, color = Color.Gray
             )
         }
-        Spacer(modifier = Modifier.height(24.dp))
-        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-            Button(
-                onClick = { /*TODO*/ },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Greenify),
-                modifier = Modifier
-                    .fillMaxWidth(0.7F)
-                    .clip(RoundedCornerShape(28.dp))
-            ) {
-                Text(
-                    text = "Sign In",
-                    color = Color.White,
-                    fontSize = 14.sp,
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
         Row(
             Modifier
                 .fillMaxWidth()
@@ -249,6 +230,23 @@ fun LoginDisplays(navcon: NavHostController) {
                 painter = painterResource(id = R.drawable.google),
                 contentDescription = "google button", modifier = Modifier.size(20.dp)
             )
+        }
+        Spacer(modifier = Modifier.height(32.dp))
+        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = { /*TODO*/ },
+                colors = ButtonDefaults.buttonColors(backgroundColor = Greenify),
+                modifier = Modifier
+                    .fillMaxWidth(0.7F)
+                    .clip(RoundedCornerShape(28.dp))
+            ) {
+                Text(
+                    text = "Sign In",
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
         Box(
             modifier = Modifier
