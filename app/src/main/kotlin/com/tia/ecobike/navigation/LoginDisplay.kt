@@ -109,7 +109,7 @@ fun LoginDisplays(navcon: NavHostController) {
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = CenterHorizontally
         ) {
             OutlinedTextField(
                 value = email,
@@ -141,7 +141,7 @@ fun LoginDisplays(navcon: NavHostController) {
         Spacer(modifier = Modifier.height(4.dp))
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = CenterHorizontally
         ) {
             OutlinedTextField(
                 value = password,
