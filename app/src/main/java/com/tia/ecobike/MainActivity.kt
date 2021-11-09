@@ -85,7 +85,7 @@ fun AdminController(nav: NavHostController) {
             enterTransition = {
                 when (this.initialState.destination.route) {
                     NavigatorQueue.ForgotPhaseFinal.route -> {
-                        fadeIn(tween(350))
+                        fadeIn(tween(300))
                     }
                     else -> slideInHorizontally(initialOffsetX = { 800 })
                 }
@@ -149,9 +149,6 @@ fun AdminController(nav: NavHostController) {
                     }
                     else -> slideOutVertically(targetOffsetY = { 800 })
                 }
-            },
-            popEnterTransition = {
-                fadeIn(tween(500))
             }
         ) {
             ForgotDisplayFinalPhase(nav = nav)
