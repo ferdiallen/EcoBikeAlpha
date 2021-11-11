@@ -22,12 +22,13 @@ import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.EcoBikeTheme
 import com.tia.ecobike.ui.theme.Greenify
 
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 class MainActivity : ComponentActivity() {
     private lateinit var navController: NavHostController
 
-    @ExperimentalAnimationApi
-    @ExperimentalFoundationApi
-    @ExperimentalMaterialApi
+
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -39,9 +40,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@ExperimentalAnimationApi
-@ExperimentalFoundationApi
+
 @ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AdminController(nav: NavHostController) {
     val sysbarcolor = rememberSystemUiController()
@@ -79,7 +81,7 @@ fun AdminController(nav: NavHostController) {
         startDestination = NavigatorQueue.SpalshScreen.route
     ) {
         composable(route = NavigatorQueue.Main.route) {
-
+            MainDisplays()
         }
         composable(route = NavigatorQueue.Login.route,
             enterTransition = {

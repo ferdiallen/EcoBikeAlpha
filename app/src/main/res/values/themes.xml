@@ -20,7 +20,4 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.EcoBike.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.EcoBike.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

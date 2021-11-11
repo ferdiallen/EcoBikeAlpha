@@ -47,7 +47,7 @@ fun ForgotDisplay(nav: NavHostController) {
         mutableStateOf(isSelected[0])
     }
 
-    var select2 by rememberSaveable() {
+    var select2 by rememberSaveable {
         mutableStateOf(isSelected[1])
     }
 
