@@ -234,7 +234,13 @@ fun LoginDisplays(navcon: NavHostController) {
         Spacer(modifier = Modifier.height(32.dp))
         Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navcon.navigate(NavigatorQueue.Main.route) {
+                        popUpTo(NavigatorQueue.Login.route) {
+                            inclusive = true
+                        }
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Greenify),
                 modifier = Modifier
                     .fillMaxWidth(0.7F)

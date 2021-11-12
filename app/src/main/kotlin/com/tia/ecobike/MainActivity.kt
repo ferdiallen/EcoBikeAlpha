@@ -10,6 +10,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -22,11 +23,11 @@ import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.EcoBikeTheme
 import com.tia.ecobike.ui.theme.Greenify
 
+
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity() {
     private lateinit var navController: NavHostController
-
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +64,9 @@ fun AdminController(nav: NavHostController) {
         NavigatorQueue.Login.route -> {
             sysbarcolor.setStatusBarColor(Greenify)
         }
+        NavigatorQueue.Main.route->{
+            sysbarcolor.setStatusBarColor(Greenify)
+        }
         NavigatorQueue.SpalshScreen.route -> {
             sysbarcolor.setStatusBarColor(Greenify)
         }
@@ -80,7 +84,11 @@ fun AdminController(nav: NavHostController) {
         navController = nav,
         startDestination = NavigatorQueue.SpalshScreen.route
     ) {
-        composable(route = NavigatorQueue.Main.route) {
+        composable(route = NavigatorQueue.Main.route, enterTransition = {
+            slideInHorizontally(initialOffsetX = { 800 })
+        }, exitTransition = {
+            fadeOut(tween(350))
+        }) {
             MainDisplays()
         }
         composable(route = NavigatorQueue.Login.route,
