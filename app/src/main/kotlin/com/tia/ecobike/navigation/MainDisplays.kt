@@ -26,13 +26,17 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.tia.ecobike.ui.theme.Greenify
 
 @Composable
 fun MainDisplays() {
+    val navBottomHostController = rememberNavController()
     val isdark = isSystemInDarkTheme()
     var search by rememberSaveable {
         mutableStateOf("")
@@ -81,6 +85,7 @@ fun MainDisplays() {
             Surface(
                 modifier = Modifier
                     .fillMaxWidth(0.9F)
+                    .clip(RoundedCornerShape(12.dp))
                     .align(CenterHorizontally),
                 color = MaterialTheme.colors.primary,
                 elevation = 14.dp
@@ -102,7 +107,7 @@ fun MainDisplays() {
                     },
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = Greenify,
-                        backgroundColor = Color.White
+                        backgroundColor = Color.White, disabledLabelColor = Color.Gray
                     ), label = {
                         Text(text = "Search bike")
                     }, keyboardActions = KeyboardActions(onDone = {
@@ -111,20 +116,37 @@ fun MainDisplays() {
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 17.sp
-                    )
-                ) {
-                    append("Hot ")
-                }
-                withStyle(style = SpanStyle(Color.White, fontSize = 17.sp)) {
-                    append("Deals")
-                }
-            }, modifier = Modifier.padding(start = 24.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 24.dp)
+            ) {
+                Text(text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            Color.White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 17.sp
+                        )
+                    ) {
+                        append("Hot ")
+                    }
+                    withStyle(style = SpanStyle(Color.White, fontSize = 17.sp)) {
+                        append("Deals")
+                    }
+                }, modifier = Modifier.weight(3F))
+                Text(
+                    text = "View all",
+                    color = Color.White,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier
+                        .weight(1F)
+                        .padding(end = 24.dp)
+                        .clickable {
+
+                        }
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             LazyRow(
                 modifier = Modifier
@@ -140,8 +162,62 @@ fun MainDisplays() {
                     }
                 }
             }
+            Spacer(modifier = Modifier.height(36.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 24.dp)
+            ) {
+                Text(text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            isDark(),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 17.sp
+                        )
+                    ) {
+                        append("Top ")
+                    }
+                    withStyle(style = SpanStyle(isDark(), fontSize = 17.sp)) {
+                        append("Locations")
+                    }
+                }, modifier = Modifier.weight(3F))
+                Text(
+                    text = "View all",
+                    color = Color.Black,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier
+                        .weight(1F)
+                        .padding(end = 24.dp)
+                        .clickable {
+
+                        }
+                )
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(start = 24.dp, end = 12.dp)
+            ) {
+                items(5) {
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colors.primary,
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = 14.dp
+                    ) {
+                        RowsOfLocationsTop()
+                    }
+                }
+            }
         }
     }
+}
+
+@Composable
+fun HomeScreens() {
+    
 }
 
 @Composable
@@ -149,10 +225,23 @@ fun RowsOfHotDeals() {
     Card(
         modifier = Modifier
             .size(202.dp, 231.dp)
-            .clickable {
-
-            }
+            .clickable {}
     ) {
 
     }
+}
+
+@Composable
+fun RowsOfLocationsTop() {
+    Card(modifier = Modifier
+        .size(93.dp, 131.dp)
+        .clickable { }) {
+
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun prevs() {
+    MainDisplays()
 }
