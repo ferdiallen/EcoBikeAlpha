@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -80,7 +81,12 @@ fun RowScope.AddItem(
 ) {
     BottomNavigationItem(selected = current?.hierarchy?.any {
         it.route == screen.route
-    } == true, onClick = { nav.navigate(screen.route) },
+    } == true, onClick = {
+        nav.navigate(screen.route) {
+            popUpTo(nav.graph.findStartDestination().id)
+            launchSingleTop = true
+        }
+    },
         label = { Text(text = screen.title) }, icon = {
             Icon(imageVector = screen.icon, contentDescription = "bottom nav icon")
         }, unselectedContentColor = Color.Gray, selectedContentColor = Greenify
@@ -239,7 +245,7 @@ fun HomeScreens() {
                 }, modifier = Modifier.weight(3F))
                 Text(
                     text = "View all",
-                    color = Color.Black,
+                    color = isDark(),
                     textAlign = TextAlign.End,
                     modifier = Modifier
                         .weight(1F)
@@ -293,5 +299,5 @@ fun RowsOfLocationsTop() {
 @Preview(showBackground = true)
 @Composable
 fun prevs() {
-    MainDisplays()
+    HomeScreens()
 }
