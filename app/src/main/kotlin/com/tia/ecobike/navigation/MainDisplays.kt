@@ -1,6 +1,7 @@
 package com.tia.ecobike.navigation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -31,16 +32,69 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.tia.ecobike.bottomnav.BottomBarScreenHolder
+import com.tia.ecobike.bottomnav.NavGraphScaffoldBottom
 import com.tia.ecobike.ui.theme.Greenify
+import com.tia.ecobike.ui.theme.backgroundLights
 
 @Composable
 fun MainDisplays() {
     val navBottomHostController = rememberNavController()
+    Scaffold(bottomBar = {
+        BottomBar(nav = navBottomHostController)
+    }) {
+        NavGraphScaffoldBottom(nav = navBottomHostController)
+    }
+}
+
+@Composable
+fun BottomBar(nav: NavHostController) {
+    val screens = listOf(
+        BottomBarScreenHolder.Mains,
+        BottomBarScreenHolder.Cart,
+        BottomBarScreenHolder.Profile
+    )
+    val stackEntry by nav.currentBackStackEntryAsState()
+    val current = stackEntry?.destination
+    BottomNavigation(
+        elevation = 12.dp, backgroundColor = Color.White, modifier = Modifier.clip(
+            RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
+        )
+    ) {
+        screens.forEach { screen ->
+            AddItem(screen = screen, current = current, nav = nav)
+        }
+    }
+}
+
+@Composable
+fun RowScope.AddItem(
+    screen: BottomBarScreenHolder,
+    current: NavDestination?,
+    nav: NavHostController
+) {
+    BottomNavigationItem(selected = current?.hierarchy?.any {
+        it.route == screen.route
+    } == true, onClick = { nav.navigate(screen.route) },
+        label = { Text(text = screen.title) }, icon = {
+            Icon(imageVector = screen.icon, contentDescription = "bottom nav icon")
+        }, unselectedContentColor = Color.Gray, selectedContentColor = Greenify
+    )
+}
+
+@Composable
+fun HomeScreens() {
     val isdark = isSystemInDarkTheme()
+
     var search by rememberSaveable {
         mutableStateOf("")
     }
+
     val focusmgr = LocalFocusManager.current
     fun isDark(): Color {
         return when (isdark) {
@@ -56,6 +110,7 @@ fun MainDisplays() {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
+            .background(if (isdark) Color.Black else backgroundLights)
     ) {
         Card(
             modifier = Modifier
@@ -213,11 +268,6 @@ fun MainDisplays() {
             }
         }
     }
-}
-
-@Composable
-fun HomeScreens() {
-    
 }
 
 @Composable

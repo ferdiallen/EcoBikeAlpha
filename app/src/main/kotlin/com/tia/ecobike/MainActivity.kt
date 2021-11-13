@@ -64,7 +64,7 @@ fun AdminController(nav: NavHostController) {
         NavigatorQueue.Login.route -> {
             sysbarcolor.setStatusBarColor(Greenify)
         }
-        NavigatorQueue.Main.route->{
+        NavigatorQueue.Main.route -> {
             sysbarcolor.setStatusBarColor(Greenify)
         }
         NavigatorQueue.SpalshScreen.route -> {
