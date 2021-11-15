@@ -9,13 +9,13 @@ import com.tia.ecobike.navigation.HomeScreens
 import com.tia.ecobike.navigation.ProfileScreens
 
 @Composable
-fun NavGraphScaffoldBottom(nav: NavHostController) {
+fun NavGraphScaffoldBottom(nav: NavHostController,mainNav:NavHostController) {
     NavHost(
         navController = nav,
         startDestination = BottomBarScreenHolder.Mains.route
     ) {
         composable(route = BottomBarScreenHolder.Mains.route){
-            HomeScreens()
+            HomeScreens(mainNav)
         }
         composable(route = BottomBarScreenHolder.Cart.route){
             CartDisplayScreen()

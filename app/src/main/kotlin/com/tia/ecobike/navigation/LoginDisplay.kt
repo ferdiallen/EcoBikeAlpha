@@ -239,6 +239,7 @@ fun LoginDisplays(navcon: NavHostController) {
                         popUpTo(NavigatorQueue.Login.route) {
                             inclusive = true
                         }
+                        launchSingleTop = true
                     }
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Greenify),

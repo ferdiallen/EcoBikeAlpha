@@ -8,4 +8,5 @@ sealed class NavigatorQueue(val route: String) {
     object ForgotPhase2:NavigatorQueue("forgot_pw_2")
     object ForgotPhaseFinal:NavigatorQueue("forgot_pw_3")
     object SpalshScreen:NavigatorQueue("splash_screen")
+    object SearchMenu:NavigatorQueue("search_menu")
 }

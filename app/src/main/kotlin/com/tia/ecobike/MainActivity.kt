@@ -10,7 +10,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -19,6 +18,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.tia.ecobike.navigation.*
+import com.tia.ecobike.navigation.searchfragment.SearchScreenBike
 import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.EcoBikeTheme
 import com.tia.ecobike.ui.theme.Greenify
@@ -79,6 +79,9 @@ fun AdminController(nav: NavHostController) {
         NavigatorQueue.ForgotPhaseFinal.route -> {
             sysbarcolor.setStatusBarColor(Color.Transparent, darkIcons = isDarkOrLight())
         }
+        NavigatorQueue.SearchMenu.route -> {
+            sysbarcolor.setStatusBarColor(Color.Transparent, darkIcons = isDarkOrLight())
+        }
     }
     AnimatedNavHost(
         navController = nav,
@@ -88,8 +91,10 @@ fun AdminController(nav: NavHostController) {
             slideInHorizontally(initialOffsetX = { 800 })
         }, exitTransition = {
             fadeOut(tween(350))
+        }, popEnterTransition = {
+            fadeIn(tween(350))
         }) {
-            MainDisplays()
+            MainDisplays(nav)
         }
         composable(route = NavigatorQueue.Login.route,
             enterTransition = {
@@ -170,6 +175,11 @@ fun AdminController(nav: NavHostController) {
             }
         ) {
             SplashScreens(nav)
+        }
+        composable(route = NavigatorQueue.SearchMenu.route, enterTransition = {
+            fadeIn(tween(150))
+        }) {
+            SearchScreenBike(nav)
         }
     }
 }

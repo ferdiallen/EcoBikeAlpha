@@ -12,16 +12,15 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalTextInputService
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -40,16 +39,18 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.tia.ecobike.bottomnav.BottomBarScreenHolder
 import com.tia.ecobike.bottomnav.NavGraphScaffoldBottom
+import com.tia.ecobike.darklightcontroller.IsDarkOrLight
+import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.Greenify
 import com.tia.ecobike.ui.theme.backgroundLights
 
 @Composable
-fun MainDisplays() {
+fun MainDisplays(mainNav: NavHostController) {
     val navBottomHostController = rememberNavController()
     Scaffold(bottomBar = {
         BottomBar(nav = navBottomHostController)
     }) {
-        NavGraphScaffoldBottom(nav = navBottomHostController)
+        NavGraphScaffoldBottom(nav = navBottomHostController, mainNav)
     }
 }
 
@@ -63,8 +64,10 @@ fun BottomBar(nav: NavHostController) {
     val stackEntry by nav.currentBackStackEntryAsState()
     val current = stackEntry?.destination
     BottomNavigation(
-        elevation = 12.dp, backgroundColor = Color.White, modifier = Modifier.clip(
-            RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
+        elevation = 12.dp,
+        backgroundColor = Color.White,
+        modifier = Modifier.clip(
+            RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
         )
     ) {
         screens.forEach { screen ->
@@ -94,24 +97,10 @@ fun RowScope.AddItem(
 }
 
 @Composable
-fun HomeScreens() {
+fun HomeScreens(nav: NavHostController) {
     val isdark = isSystemInDarkTheme()
-
-    var search by rememberSaveable {
-        mutableStateOf("")
-    }
-
+    val colorState = IsDarkOrLight.isDarkOrLight()
     val focusmgr = LocalFocusManager.current
-    fun isDark(): Color {
-        return when (isdark) {
-            true -> {
-                Color.White
-            }
-            false -> {
-                Color.Black
-            }
-        }
-    }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -148,33 +137,41 @@ fun HomeScreens() {
                     .fillMaxWidth(0.9F)
                     .clip(RoundedCornerShape(12.dp))
                     .align(CenterHorizontally),
-                color = MaterialTheme.colors.primary,
+                color = Greenify,
                 elevation = 14.dp
             ) {
-                TextField(
-                    value = search,
-                    onValueChange = {
-                        search = it
-                    },
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    maxLines = 1,
-                    singleLine = true,
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Filled.Search,
-                            "search field",
-                            tint = Greenify
-                        )
-                    },
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = Greenify,
-                        backgroundColor = Color.White, disabledLabelColor = Color.Gray
-                    ), label = {
-                        Text(text = "Search bike")
-                    }, keyboardActions = KeyboardActions(onDone = {
-                        focusmgr.clearFocus()
-                    })
-                )
+                CompositionLocalProvider(LocalTextInputService provides null) {
+                    TextField(
+                        modifier = Modifier.onFocusChanged {
+                            if (it.hasFocus) {
+                                nav.navigate(NavigatorQueue.SearchMenu.route)
+                            }
+                        },
+                        value = "",
+                        onValueChange = {
+
+                        },
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                        maxLines = 1,
+                        singleLine = true,
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Filled.Search,
+                                "search field",
+                                tint = Greenify
+                            )
+                        },
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = Greenify,
+                            backgroundColor = Color.White
+                        ), label = {
+                            Text(text = "Search bike", color = Greenify)
+                        }, keyboardActions = KeyboardActions(onDone = {
+                            focusmgr.clearFocus()
+                        })
+                    )
+                }
+
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -232,20 +229,20 @@ fun HomeScreens() {
                 Text(text = buildAnnotatedString {
                     withStyle(
                         style = SpanStyle(
-                            isDark(),
+                            color = colorState,
                             fontWeight = FontWeight.Bold,
                             fontSize = 17.sp
                         )
                     ) {
                         append("Top ")
                     }
-                    withStyle(style = SpanStyle(isDark(), fontSize = 17.sp)) {
+                    withStyle(style = SpanStyle(colorState, fontSize = 17.sp)) {
                         append("Locations")
                     }
                 }, modifier = Modifier.weight(3F))
                 Text(
                     text = "View all",
-                    color = isDark(),
+                    color = colorState,
                     textAlign = TextAlign.End,
                     modifier = Modifier
                         .weight(1F)
@@ -299,5 +296,5 @@ fun RowsOfLocationsTop() {
 @Preview(showBackground = true)
 @Composable
 fun prevs() {
-    HomeScreens()
+    HomeScreens(rememberNavController())
 }
