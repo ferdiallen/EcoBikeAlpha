@@ -28,7 +28,7 @@ fun SplashScreens(nav: NavHostController) {
             contentDescription = "main_logo",modifier = Modifier.size(210.dp,85.dp))
     }
     LaunchedEffect(key1 = Unit) {
-        delay(2000L)
+        delay(250L)
         nav.navigate(NavigatorQueue.Login.route) {
             popUpTo(NavigatorQueue.SpalshScreen.route) {
                 inclusive = true

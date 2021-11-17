@@ -49,8 +49,10 @@ fun MainDisplays(mainNav: NavHostController) {
     val navBottomHostController = rememberNavController()
     Scaffold(bottomBar = {
         BottomBar(nav = navBottomHostController)
-    }) {
-        NavGraphScaffoldBottom(nav = navBottomHostController, mainNav)
+    }) { paddingContent ->
+        Box(Modifier.padding(bottom = paddingContent.calculateBottomPadding())) {
+            NavGraphScaffoldBottom(nav = navBottomHostController, mainNav)
+        }
     }
 }
 
