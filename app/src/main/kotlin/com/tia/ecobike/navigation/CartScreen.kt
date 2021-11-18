@@ -3,7 +3,9 @@ package com.tia.ecobike.navigation
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,21 +22,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.tia.ecobike.R
 import com.tia.ecobike.darklightcontroller.IsDarkOrLight
 import com.tia.ecobike.ui.theme.Greenify
+import kotlin.math.roundToInt
 
+@ExperimentalMaterialApi
 @Composable
-fun CartDisplayScreen() {
+fun CartDisplayScreen(nav: NavHostController) {
     val colorstate = IsDarkOrLight.isDarkOrLight()
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(19.dp))
@@ -49,7 +57,8 @@ fun CartDisplayScreen() {
                 contentDescription = "arrow back in cart",
                 modifier = Modifier
                     .weight(1F)
-                    .size(25.dp, 24.dp),
+                    .size(25.dp, 24.dp)
+                    .clickable { nav.popBackStack() },
                 tint = colorstate
             )
             Text(
@@ -65,7 +74,12 @@ fun CartDisplayScreen() {
             )
         }
         Spacer(modifier = Modifier.height(52.dp))
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            contentPadding = PaddingValues(bottom = 18.dp)
+        ) {
             items(1) {
                 Surface(shape = RoundedCornerShape(12.dp), elevation = 12.dp) {
                     CartTransactionDetail(
@@ -74,7 +88,7 @@ fun CartDisplayScreen() {
                         subTotal = "1.300.000",
                         bikeVendor = "Xiaomi",
                         bikeType = "HIMI C16",
-                        perHourPrice = "Rp.10.000", duration = "3 Hours"
+                        perHourPrice = "10.000", duration = "3 Hours"
                     )
                 }
             }
@@ -89,12 +103,12 @@ fun CartDisplayScreen() {
                 colors = ButtonDefaults.buttonColors(backgroundColor = Greenify),
                 modifier = Modifier
                     .fillMaxWidth(0.9F)
-                    .height(43.dp),shape = RoundedCornerShape(12.dp)
+                    .height(43.dp), shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
                     text = "Proceed to checkout",
                     color = Color.White,
-                    modifier = Modifier.weight(5F),fontSize = 12.sp,textAlign = TextAlign.Start
+                    modifier = Modifier.weight(5F), fontSize = 12.sp, textAlign = TextAlign.Start
                 )
                 Spacer(modifier = Modifier.weight(5F))
                 Icon(
@@ -110,6 +124,7 @@ fun CartDisplayScreen() {
 
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun CartTransactionDetail(
     transactNum: String,
@@ -120,6 +135,14 @@ fun CartTransactionDetail(
     bikeType: String,
     perHourPrice: String
 ) {
+
+    val swipableState = rememberSwipeableState(initialValue = 0)
+    val sqpx = (-50).dp
+    val sizePX = with(LocalDensity.current) {
+        sqpx.toPx()
+    }
+    val anchor = mapOf(0f to 0, sizePX to 1)
+
     var sizeForNumber by remember {
         mutableStateOf(1F)
     }
@@ -137,69 +160,76 @@ fun CartTransactionDetail(
     val sizeAnimateCard by animateDpAsState(targetValue = sizeOfCards)
     val colorstate = IsDarkOrLight.isDarkOrLight()
     val animateArrowRotation by animateFloatAsState(targetValue = arrowRotation)
-    Card(modifier = Modifier.size(325.dp, sizeAnimateCard)) {
-        Column(
+    Column(
+        modifier = Modifier
+            .size(325.dp, sizeAnimateCard)
+            .swipeable(state = swipableState, anchors = anchor, thresholds = { _, _ ->
+                FractionalThreshold(0.3F)
+            }, orientation = Orientation.Horizontal),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
             Modifier
                 .fillMaxSize()
-                .padding(12.dp)
+                .background(Color.Gray)
         ) {
-            Row(Modifier.fillMaxWidth()) {
-                Text(
-                    text = "No Transaksi",
-                    color = colorstate,
-                    modifier = Modifier
-                        .weight(2F),
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = transactNum,
-                    color = colorstate,
-                    modifier = Modifier
-                        .weight(sizeToIncrease)
-                        .clickable {
-                            sizeForNumber = when (sizeForNumber) {
-                                1F -> {
-                                    1.7F
-                                }
-                                else -> {
-                                    1F
-                                }
-                            }
-                        },
-                    maxLines = 1, overflow = TextOverflow.Ellipsis, fontWeight = FontWeight.Bold
-                )
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                Card(modifier = Modifier.size(47.dp, 98.dp)) {
+
+                }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Divider(color = colorstate, thickness = 1.dp)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Station Location", color = colorstate, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Filled.PinDrop,
-                    contentDescription = "Locations",
-                    tint = colorstate, modifier = Modifier.weight(1F)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    text = stationName,
-                    color = colorstate,
-                    fontSize = 12.sp,
-                    modifier = Modifier.weight(
-                        8F
+            Card(modifier = Modifier
+                .fillMaxSize()
+                .offset {
+                    IntOffset(
+                        swipableState.offset.value.roundToInt(), 0
                     )
-                )
-                Icon(
-                    imageVector = Icons.Filled.ArrowForwardIos,
-                    contentDescription = "leverage the items",
-                    tint = Greenify,
-                    modifier = Modifier
-                        .weight(
-                            1F
+                }) {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(12.dp)
+                ) {
+                    Row(Modifier.fillMaxWidth()) {
+                        Text(
+                            text = "No Transaksi",
+                            color = colorstate,
+                            modifier = Modifier
+                                .weight(2F),
+                            fontWeight = FontWeight.Bold
                         )
-                        .size(6.dp, 10.dp)
-                        .rotate(animateArrowRotation)
-                        .clickable {
+                        Text(
+                            text = transactNum,
+                            color = colorstate,
+                            modifier = Modifier
+                                .weight(sizeToIncrease)
+                                .clickable {
+                                    sizeForNumber = when (sizeForNumber) {
+                                        1F -> {
+                                            1.7F
+                                        }
+                                        else -> {
+                                            1F
+                                        }
+                                    }
+                                },
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(color = colorstate, thickness = 1.dp)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Station Location",
+                        color = colorstate,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable {
                             when (sizeOfCards) {
                                 110.dp -> {
                                     sizeOfCards = 250.dp
@@ -210,82 +240,109 @@ fun CartTransactionDetail(
                                     arrowRotation = 90F
                                 }
                             }
-                        }
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Divider(thickness = 1.dp, color = colorstate)
-            Spacer(modifier = Modifier.height(8.dp))
-            Row {
-                Text(
-                    text = "Sub Total",
-                    modifier = Modifier.weight(2.7F),
-                    fontWeight = FontWeight.Bold,
-                    color = colorstate
-                )
-                Text(
-                    text = "Rp. $subTotal",
-                    color = colorstate,
-                    modifier = Modifier
-                        .weight(sizeToIncreaseSubTotal)
-                        .clickable {
-                            sizeForSubTotal = when (sizeForSubTotal) {
-                                1F -> 1.8F
-                                else -> 1F
-                            }
-                        },
-                    fontWeight = FontWeight.Bold,
-                    overflow = TextOverflow.Ellipsis, maxLines = 1
-                )
-            }
-            Row {
-                Text(
-                    text = "Duration",
-                    modifier = Modifier.weight(3.5F),
-                    fontWeight = FontWeight.Bold,
-                    color = colorstate
-                )
-                Text(
-                    text = duration,
-                    color = colorstate,
-                    modifier = Modifier
-                        .weight(1F),
-                    fontWeight = FontWeight.Bold,
-                    overflow = TextOverflow.Ellipsis, maxLines = 1
-                )
-            }
-            Spacer(modifier = Modifier.height(4.dp))
-            Divider(thickness = 1.dp, color = colorstate)
-            Spacer(modifier = Modifier.height(8.dp))
-            Row {
-                Card(
-                    modifier = Modifier
-                        .size(65.dp, 62.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    backgroundColor = Greenify.copy(alpha = 0.35F).compositeOver(Color.White)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.protobike),
-                        contentDescription = "Sepeda di cart"
-                    )
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                Column {
-                    Text(
-                        text = bikeVendor,
-                        fontSize = 12.sp,
-                        color = colorstate,
-                        fontWeight = FontWeight.Bold
-                    )
+                        }) {
+                        Icon(
+                            imageVector = Icons.Filled.PinDrop,
+                            contentDescription = "Locations",
+                            tint = colorstate, modifier = Modifier.weight(1F)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = stationName,
+                            color = colorstate,
+                            fontSize = 12.sp,
+                            modifier = Modifier.weight(
+                                8F
+                            )
+                        )
+                        Icon(
+                            imageVector = Icons.Filled.ArrowForwardIos,
+                            contentDescription = "leverage the items",
+                            tint = Greenify,
+                            modifier = Modifier
+                                .weight(
+                                    1F
+                                )
+                                .size(6.dp, 10.dp)
+                                .rotate(animateArrowRotation)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(thickness = 1.dp, color = colorstate)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row {
+                        Text(
+                            text = "Sub Total",
+                            modifier = Modifier.weight(2.7F),
+                            fontWeight = FontWeight.Bold,
+                            color = colorstate
+                        )
+                        Text(
+                            text = "Rp. $subTotal",
+                            color = colorstate,
+                            modifier = Modifier
+                                .weight(sizeToIncreaseSubTotal)
+                                .clickable {
+                                    sizeForSubTotal = when (sizeForSubTotal) {
+                                        1F -> 1.8F
+                                        else -> 1F
+                                    }
+                                },
+                            fontWeight = FontWeight.Bold,
+                            overflow = TextOverflow.Ellipsis, maxLines = 1
+                        )
+                    }
+                    Row {
+                        Text(
+                            text = "Duration",
+                            modifier = Modifier.weight(3.5F),
+                            fontWeight = FontWeight.Bold,
+                            color = colorstate
+                        )
+                        Text(
+                            text = duration,
+                            color = colorstate,
+                            modifier = Modifier
+                                .weight(1F),
+                            fontWeight = FontWeight.Bold,
+                            overflow = TextOverflow.Ellipsis, maxLines = 1
+                        )
+                    }
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = bikeType, fontSize = 11.sp, color = colorstate)
-                    Spacer(modifier = Modifier.height(6.dp))
-                    Text(
-                        text = "Rp.$perHourPrice/hour",
-                        fontSize = 10.sp,
-                        color = colorstate,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Divider(thickness = 1.dp, color = colorstate)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row {
+                        Card(
+                            modifier = Modifier
+                                .size(65.dp, 62.dp),
+                            shape = RoundedCornerShape(8.dp),
+                            backgroundColor = Greenify.copy(alpha = 0.35F)
+                                .compositeOver(Color.White)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.protobike),
+                                contentDescription = "Sepeda di cart"
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Column {
+                            Text(
+                                text = bikeVendor,
+                                fontSize = 12.sp,
+                                color = colorstate,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(text = bikeType, fontSize = 11.sp, color = colorstate)
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = "Rp.$perHourPrice/hour",
+                                fontSize = 10.sp,
+                                color = colorstate,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
                 }
             }
         }

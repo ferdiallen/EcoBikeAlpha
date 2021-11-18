@@ -1,5 +1,6 @@
 package com.tia.ecobike.bottomnav
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -8,6 +9,7 @@ import com.tia.ecobike.navigation.CartDisplayScreen
 import com.tia.ecobike.navigation.HomeScreens
 import com.tia.ecobike.navigation.ProfileScreens
 
+@ExperimentalMaterialApi
 @Composable
 fun NavGraphScaffoldBottom(nav: NavHostController,mainNav:NavHostController) {
     NavHost(
@@ -18,7 +20,7 @@ fun NavGraphScaffoldBottom(nav: NavHostController,mainNav:NavHostController) {
             HomeScreens(mainNav)
         }
         composable(route = BottomBarScreenHolder.Cart.route){
-            CartDisplayScreen()
+            CartDisplayScreen(nav)
         }
         composable(route = BottomBarScreenHolder.Profile.route){
            ProfileScreens()
