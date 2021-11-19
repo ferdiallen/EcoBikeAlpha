@@ -1,5 +1,6 @@
 package com.tia.ecobike.navigation
 
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,13 +13,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalTextInputService
@@ -113,6 +114,28 @@ fun HomeScreens(nav: NavHostController) {
     val isdark = isSystemInDarkTheme()
     val colorState = IsDarkOrLight.isDarkOrLight()
     val focusmgr = LocalFocusManager.current
+    var isEnabledShimmer by remember{
+        mutableStateOf(false)
+    }
+    isEnabledShimmer = true
+    val shimmerEffect = listOf(
+        Color.LightGray.copy(alpha = 0.6F),
+        Color.LightGray.copy(alpha = 0.2F),
+        Color.LightGray.copy(alpha = 0.6F)
+    )
+    val infiniteTransition = rememberInfiniteTransition()
+    val animateF = infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1400f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000, easing = LinearOutSlowInEasing)
+        )
+    )
+    val brush = Brush.linearGradient(
+        colors = shimmerEffect,
+        start = Offset.Zero,
+        end = Offset(x = animateF.value, y = animateF.value)
+    )
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -226,9 +249,10 @@ fun HomeScreens(nav: NavHostController) {
             ) {
                 items(5) {
                     Surface(
-                        elevation = 14.dp, shape = RoundedCornerShape(32.dp)
+                        elevation = 14.dp,
+                        shape = RoundedCornerShape(32.dp)
                     ) {
-                        RowsOfHotDeals()
+                        RowsOfHotDeals(brush,isEnabledShimmer)
                     }
                 }
             }
@@ -277,7 +301,7 @@ fun HomeScreens(nav: NavHostController) {
                         shape = RoundedCornerShape(12.dp),
                         elevation = 14.dp
                     ) {
-                        RowsOfLocationsTop()
+                        RowsOfLocationsTop(brush,isEnabledShimmer)
                     }
                 }
             }
@@ -286,22 +310,26 @@ fun HomeScreens(nav: NavHostController) {
 }
 
 @Composable
-fun RowsOfHotDeals() {
+fun RowsOfHotDeals(brush:Brush,isEnabled:Boolean) {
     Card(
         modifier = Modifier
             .size(202.dp, 231.dp)
             .clickable {}
     ) {
-
+        if(isEnabled){
+            Spacer(modifier = Modifier.fillMaxSize().background(brush))
+        }
     }
 }
 
 @Composable
-fun RowsOfLocationsTop() {
+fun RowsOfLocationsTop(brush:Brush,isEnabled:Boolean) {
     Card(modifier = Modifier
         .size(93.dp, 131.dp)
         .clickable { }) {
-
+        if(isEnabled){
+            Spacer(modifier = Modifier.fillMaxSize().background(brush))
+        }
     }
 }
 
