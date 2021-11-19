@@ -17,6 +17,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.tia.ecobike.darklightcontroller.UiController
 import com.tia.ecobike.navigation.*
 import com.tia.ecobike.navigation.searchfragment.SearchScreenBike
 import com.tia.ecobike.navigators.NavigatorQueue
@@ -47,7 +48,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AdminController(nav: NavHostController) {
-    val sysbarcolor = rememberSystemUiController()
+    val sysbarcolor = UiController.setUi()
     val currentstack by nav.currentBackStackEntryAsState()
     val uiState = isSystemInDarkTheme()
     fun isDarkOrLight(): Boolean {

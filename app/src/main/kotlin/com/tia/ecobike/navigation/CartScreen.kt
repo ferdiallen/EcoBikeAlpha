@@ -11,10 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.ArrowForwardIos
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.PinDrop
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
@@ -137,7 +134,7 @@ fun CartTransactionDetail(
 ) {
 
     val swipableState = rememberSwipeableState(initialValue = 0)
-    val sqpx = (-50).dp
+    val sqpx = (-70).dp
     val sizePX = with(LocalDensity.current) {
         sqpx.toPx()
     }
@@ -173,9 +170,19 @@ fun CartTransactionDetail(
                 .fillMaxSize()
                 .background(Color.Gray)
         ) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                Card(modifier = Modifier.size(47.dp, 98.dp)) {
-
+            Row(
+                Modifier.fillMaxSize(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Card(modifier = Modifier
+                    .size(47.dp, 98.dp)
+                    .padding(end = 12.dp),backgroundColor = Greenify) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = "Delete icon",
+                        tint = Color.White,modifier = Modifier.width(24.dp).height(24.dp)
+                    )
                 }
             }
             Card(modifier = Modifier

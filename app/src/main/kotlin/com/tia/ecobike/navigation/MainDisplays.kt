@@ -41,6 +41,7 @@ import androidx.navigation.compose.rememberNavController
 import com.tia.ecobike.bottomnav.BottomBarScreenHolder
 import com.tia.ecobike.bottomnav.NavGraphScaffoldBottom
 import com.tia.ecobike.darklightcontroller.IsDarkOrLight
+import com.tia.ecobike.darklightcontroller.UiController
 import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.Greenify
 import com.tia.ecobike.ui.theme.backgroundLights
@@ -67,6 +68,13 @@ fun BottomBar(nav: NavHostController) {
     )
     val stackEntry by nav.currentBackStackEntryAsState()
     val current = stackEntry?.destination
+    val sysbar = UiController.setUi()
+    when (current?.route) {
+        BottomBarScreenHolder.Cart.route -> {
+            sysbar.setStatusBarColor(Color.Transparent, darkIcons = true)
+        }
+        BottomBarScreenHolder.Mains.route -> sysbar.setStatusBarColor(Greenify, darkIcons = true)
+    }
     BottomNavigation(
         elevation = 12.dp,
         backgroundColor = Color.White,
