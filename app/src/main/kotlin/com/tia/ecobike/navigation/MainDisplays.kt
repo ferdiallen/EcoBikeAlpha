@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -14,7 +15,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
@@ -114,7 +114,7 @@ fun HomeScreens(nav: NavHostController) {
     val isdark = isSystemInDarkTheme()
     val colorState = IsDarkOrLight.isDarkOrLight()
     val focusmgr = LocalFocusManager.current
-    var isEnabledShimmer by remember{
+    var isEnabledShimmer by remember {
         mutableStateOf(false)
     }
     isEnabledShimmer = true
@@ -151,157 +151,206 @@ fun HomeScreens(nav: NavHostController) {
                 bottomStart = 64.dp
             )
         ) {}
-        Column(Modifier.fillMaxSize()) {
-            Spacer(modifier = Modifier.height(37.dp))
-            Image(
-                painter = painterResource(id = com.tia.ecobike.R.drawable.mainlogo),
-                modifier = Modifier
-                    .width(215.dp)
-                    .height(79.dp),
-                contentDescription = "for main menu"
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Hello,What are you looking for ?",
-                color = Color.White,
-                modifier = Modifier.padding(start = 24.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth(0.9F)
-                    .clip(RoundedCornerShape(12.dp))
-                    .align(CenterHorizontally),
-                color = Greenify,
-                elevation = 14.dp
-            ) {
-                CompositionLocalProvider(LocalTextInputService provides null) {
-                    TextField(
-                        modifier = Modifier.onFocusChanged {
-                            if (it.hasFocus) {
-                                nav.navigate(NavigatorQueue.SearchMenu.route)
-                            }
-                        },
-                        value = "",
-                        onValueChange = {
-
-                        },
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                        maxLines = 1,
-                        singleLine = true,
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Filled.Search,
-                                "search field",
-                                tint = Greenify
-                            )
-                        },
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = Greenify,
-                            backgroundColor = Color.White
-                        ), label = {
-                            Text(text = "Search bike", color = Greenify)
-                        }, keyboardActions = KeyboardActions(onDone = {
-                            focusmgr.clearFocus()
-                        })
+        Column(
+            Modifier
+                .fillMaxSize()
+        ) {
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                item {
+                    Spacer(modifier = Modifier.height(37.dp))
+                    Image(
+                        painter = painterResource(id = com.tia.ecobike.R.drawable.mainlogo),
+                        modifier = Modifier
+                            .width(215.dp)
+                            .height(79.dp),
+                        contentDescription = "for main menu"
                     )
-                }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Hello,What are you looking for ?",
+                        color = Color.White,
+                        modifier = Modifier.padding(start = 24.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxWidth(0.9F)
+                                .clip(RoundedCornerShape(12.dp)),
+                            color = Greenify,
+                            elevation = 14.dp
+                        ) {
+                            CompositionLocalProvider(LocalTextInputService provides null) {
+                                TextField(
+                                    modifier = Modifier.onFocusChanged {
+                                        if (it.hasFocus) {
+                                            nav.navigate(NavigatorQueue.SearchMenu.route)
+                                        }
+                                    },
+                                    value = "",
+                                    onValueChange = {
 
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp)
-            ) {
-                Text(text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 17.sp
-                        )
-                    ) {
-                        append("Hot ")
-                    }
-                    withStyle(style = SpanStyle(Color.White, fontSize = 17.sp)) {
-                        append("Deals")
-                    }
-                }, modifier = Modifier.weight(3F))
-                Text(
-                    text = "View all",
-                    color = Color.White,
-                    textAlign = TextAlign.End,
-                    modifier = Modifier
-                        .weight(1F)
-                        .padding(end = 24.dp)
-                        .clickable {
+                                    },
+                                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                                    maxLines = 1,
+                                    singleLine = true,
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Filled.Search,
+                                            "search field",
+                                            tint = Greenify
+                                        )
+                                    },
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = Greenify,
+                                        backgroundColor = Color.White
+                                    ), label = {
+                                        Text(text = "Search bike", color = Greenify)
+                                    }, keyboardActions = KeyboardActions(onDone = {
+                                        focusmgr.clearFocus()
+                                    })
+                                )
+                            }
 
                         }
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(start = 24.dp, end = 12.dp)
-            ) {
-                items(5) {
-                    Surface(
-                        elevation = 14.dp,
-                        shape = RoundedCornerShape(32.dp)
-                    ) {
-                        RowsOfHotDeals(brush,isEnabledShimmer)
                     }
                 }
-            }
-            Spacer(modifier = Modifier.height(36.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp)
-            ) {
-                Text(text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
+                item {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 24.dp)
+                    ) {
+                        Text(text = buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    Color.White,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 17.sp
+                                )
+                            ) {
+                                append("Hot ")
+                            }
+                            withStyle(style = SpanStyle(Color.White, fontSize = 17.sp)) {
+                                append("Deals")
+                            }
+                        }, modifier = Modifier.weight(3F))
+                        Text(
+                            text = "View all",
+                            color = Color.White,
+                            textAlign = TextAlign.End,
+                            modifier = Modifier
+                                .weight(1F)
+                                .padding(end = 24.dp)
+                                .clickable {
+
+                                }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        contentPadding = PaddingValues(start = 24.dp, end = 12.dp)
+                    ) {
+                        items(5) {
+                            Surface(
+                                elevation = 14.dp,
+                                shape = RoundedCornerShape(32.dp)
+                            ) {
+                                RowsOfHotDeals(brush, isEnabledShimmer)
+                            }
+                        }
+                    }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 24.dp)
+                    ) {
+                        Text(text = buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = colorState,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 17.sp
+                                )
+                            ) {
+                                append("Top ")
+                            }
+                            withStyle(style = SpanStyle(colorState, fontSize = 17.sp)) {
+                                append("Locations")
+                            }
+                        }, modifier = Modifier.weight(3F))
+                        Text(
+                            text = "View all",
                             color = colorState,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 17.sp
-                        )
-                    ) {
-                        append("Top ")
-                    }
-                    withStyle(style = SpanStyle(colorState, fontSize = 17.sp)) {
-                        append("Locations")
-                    }
-                }, modifier = Modifier.weight(3F))
-                Text(
-                    text = "View all",
-                    color = colorState,
-                    textAlign = TextAlign.End,
-                    modifier = Modifier
-                        .weight(1F)
-                        .padding(end = 24.dp)
-                        .clickable {
+                            textAlign = TextAlign.End,
+                            modifier = Modifier
+                                .weight(1F)
+                                .padding(end = 24.dp)
+                                .clickable {
 
-                        }
-                )
-            }
-            Spacer(modifier = Modifier.height(24.dp))
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(start = 24.dp, end = 12.dp)
-            ) {
-                items(5) {
-                    Surface(
+                                }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(24.dp))
+                    LazyRow(
                         modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colors.primary,
-                        shape = RoundedCornerShape(12.dp),
-                        elevation = 14.dp
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        contentPadding = PaddingValues(start = 24.dp, end = 12.dp)
                     ) {
-                        RowsOfLocationsTop(brush,isEnabledShimmer)
+                        items(5) {
+                            Surface(
+                                modifier = Modifier.fillMaxWidth(),
+                                color = MaterialTheme.colors.primary,
+                                shape = RoundedCornerShape(12.dp),
+                                elevation = 14.dp
+                            ) {
+                                RowsOfLocationsTop(brush, isEnabledShimmer)
+                            }
+                        }
+                    }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 24.dp)
+                    ) {
+                        Text(text = buildAnnotatedString {
+                            withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 17.sp)) {
+                                append("Suggested ")
+                            }
+                            withStyle(SpanStyle(fontSize = 17.sp)) {
+                                append("Bike")
+                            }
+                        })
+                        Text(
+                            text = "View all",
+                            color = colorState,
+                            textAlign = TextAlign.End,
+                            modifier = Modifier
+                                .weight(1F)
+                                .padding(end = 24.dp)
+                                .clickable {
+
+                                }
+                        )
+                    }
+                }
+                items(4) {
+                    Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
+                        ColumnOfSuggested(
+                            brush = Brush.linearGradient(colors = listOf(Color.Green)),
+                            isEnabled = false,
+                            bikeName = "Xiaomi", cost = "100.000", rating = "4.5", "10", "Suhat"
+                        )
                     }
                 }
             }
@@ -310,31 +359,62 @@ fun HomeScreens(nav: NavHostController) {
 }
 
 @Composable
-fun RowsOfHotDeals(brush:Brush,isEnabled:Boolean) {
+fun RowsOfHotDeals(brush: Brush, isEnabled: Boolean) {
     Card(
         modifier = Modifier
             .size(202.dp, 231.dp)
             .clickable {}
     ) {
-        if(isEnabled){
-            Spacer(modifier = Modifier.fillMaxSize().background(brush))
+        if (isEnabled) {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(brush)
+            )
         }
     }
 }
 
 @Composable
-fun RowsOfLocationsTop(brush:Brush,isEnabled:Boolean) {
+fun RowsOfLocationsTop(brush: Brush, isEnabled: Boolean) {
     Card(modifier = Modifier
         .size(93.dp, 131.dp)
         .clickable { }) {
-        if(isEnabled){
-            Spacer(modifier = Modifier.fillMaxSize().background(brush))
+        if (isEnabled) {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(brush)
+            )
+        }
+    }
+}
+
+@Composable
+fun ColumnOfSuggested(
+    brush: Brush,
+    isEnabled: Boolean,
+    bikeName: String,
+    cost: String,
+    rating: String,
+    reviewSize: String,
+    location: String
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(0.9f)
+            .height(100.dp)
+    ) {
+        Row(Modifier.fillMaxSize()) {
+            Column(Modifier.padding(start = 12.dp)) {
+                Text(text = bikeName, fontSize = 11.sp)
+            }
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun prevs() {
-    HomeScreens(rememberNavController())
+fun Previews() {
+    HomeScreens(nav = rememberNavController())
 }

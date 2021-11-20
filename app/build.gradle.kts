@@ -50,9 +50,9 @@ android {
 }
 
 dependencies {
-    val composeVersion = "1.0.4"
+    val composeVersion = "1.0.5"
     implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.appcompat:appcompat:1.4.0")
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.compose.ui:ui:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
@@ -74,8 +74,11 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
 
     //Accompanist
-    val accompanistVersion = "0.21.1-beta"
+    val accompanistVersion = "0.21.2-beta"
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-insets:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
+
+    //Motion Layout
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02")
 }
