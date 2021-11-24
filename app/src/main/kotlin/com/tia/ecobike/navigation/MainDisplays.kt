@@ -1,6 +1,9 @@
 package com.tia.ecobike.navigation
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,6 +11,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -15,12 +19,14 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalTextInputService
 import androidx.compose.ui.res.painterResource
@@ -39,6 +45,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.tia.ecobike.R
 import com.tia.ecobike.bottomnav.BottomBarScreenHolder
 import com.tia.ecobike.bottomnav.NavGraphScaffoldBottom
 import com.tia.ecobike.darklightcontroller.IsDarkOrLight
@@ -46,6 +53,7 @@ import com.tia.ecobike.darklightcontroller.UiController
 import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.Greenify
 import com.tia.ecobike.ui.theme.backgroundLights
+
 
 @ExperimentalMaterialApi
 @Composable
@@ -55,7 +63,7 @@ fun MainDisplays(mainNav: NavHostController) {
         BottomBar(nav = navBottomHostController)
     }) { paddingContent ->
         Box(Modifier.padding(bottom = paddingContent.calculateBottomPadding())) {
-            NavGraphScaffoldBottom(nav = navBottomHostController, mainNav)
+            NavGraphScaffoldBottom(nav = navBottomHostController)
         }
     }
 }
@@ -69,12 +77,12 @@ fun BottomBar(nav: NavHostController) {
     )
     val stackEntry by nav.currentBackStackEntryAsState()
     val current = stackEntry?.destination
-    val sysbar = UiController.setUi()
+    val uiControl = UiController.setUi()
     when (current?.route) {
         BottomBarScreenHolder.Cart.route -> {
-            sysbar.setStatusBarColor(Color.Transparent, darkIcons = true)
+            uiControl.setStatusBarColor(Color.Transparent, darkIcons = true)
         }
-        BottomBarScreenHolder.Mains.route -> sysbar.setStatusBarColor(Greenify, darkIcons = true)
+        BottomBarScreenHolder.Mains.route -> uiControl.setStatusBarColor(Greenify, darkIcons = true)
     }
     BottomNavigation(
         elevation = 12.dp,
@@ -109,6 +117,7 @@ fun RowScope.AddItem(
     )
 }
 
+
 @Composable
 fun HomeScreens(nav: NavHostController) {
     val isdark = isSystemInDarkTheme()
@@ -117,6 +126,7 @@ fun HomeScreens(nav: NavHostController) {
     var isEnabledShimmer by remember {
         mutableStateOf(false)
     }
+    val stateoflist = rememberLazyListState()
     isEnabledShimmer = true
     val shimmerEffect = listOf(
         Color.LightGray.copy(alpha = 0.6F),
@@ -142,24 +152,29 @@ fun HomeScreens(nav: NavHostController) {
             .fillMaxHeight()
             .background(if (isdark) Color.Black else backgroundLights)
     ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(320.dp)
-                .clickable(enabled = false, onClick = {}),
-            backgroundColor = Greenify, shape = RoundedCornerShape(
-                bottomStart = 64.dp
-            )
-        ) {}
+        AnimatedVisibility(
+            visible = stateoflist.firstVisibleItemIndex == 0,
+            exit = shrinkVertically(), enter = expandVertically()
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(320.dp)
+                    .clickable(enabled = false, onClick = {}),
+                backgroundColor = Greenify, shape = RoundedCornerShape(
+                    bottomStart = 64.dp
+                )
+            ) {}
+        }
         Column(
             Modifier
                 .fillMaxSize()
         ) {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(modifier = Modifier.fillMaxSize(), state = stateoflist) {
                 item {
                     Spacer(modifier = Modifier.height(37.dp))
                     Image(
-                        painter = painterResource(id = com.tia.ecobike.R.drawable.mainlogo),
+                        painter = painterResource(id = R.drawable.mainlogo),
                         modifier = Modifier
                             .width(215.dp)
                             .height(79.dp),
@@ -172,7 +187,7 @@ fun HomeScreens(nav: NavHostController) {
                         modifier = Modifier.padding(start = 24.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                         Surface(
                             modifier = Modifier
                                 .fillMaxWidth(0.9F)
@@ -184,7 +199,7 @@ fun HomeScreens(nav: NavHostController) {
                                 TextField(
                                     modifier = Modifier.onFocusChanged {
                                         if (it.hasFocus) {
-                                            nav.navigate(NavigatorQueue.SearchMenu.route)
+                                            nav.navigate(BottomBarScreenHolder.SearchMenu.route)
                                         }
                                     },
                                     value = "",
@@ -266,7 +281,7 @@ fun HomeScreens(nav: NavHostController) {
                     }
                 }
                 item {
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(18.dp))
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -321,7 +336,7 @@ fun HomeScreens(nav: NavHostController) {
                     Row(
                         Modifier
                             .fillMaxWidth()
-                            .padding(start = 24.dp)
+                            .padding(start = 24.dp, bottom = 22.dp)
                     ) {
                         Text(text = buildAnnotatedString {
                             withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 17.sp)) {
@@ -345,11 +360,22 @@ fun HomeScreens(nav: NavHostController) {
                     }
                 }
                 items(4) {
-                    Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
                         ColumnOfSuggested(
                             brush = Brush.linearGradient(colors = listOf(Color.Green)),
                             isEnabled = false,
-                            bikeName = "Xiaomi", cost = "100.000", rating = "4.5", "10", "Suhat"
+                            bikeName = "Xiaomi",
+                            "Himo C16",
+                            cost = "100.000",
+                            rating = "4.5",
+                            "10",
+                            "Suhat",
+                            painterResource(id = R.drawable.imgrecommended)
                         )
                     }
                 }
@@ -395,19 +421,101 @@ fun ColumnOfSuggested(
     brush: Brush,
     isEnabled: Boolean,
     bikeName: String,
+    fullbikeName: String,
     cost: String,
     rating: String,
     reviewSize: String,
-    location: String
+    location: String,
+    image: Painter
 ) {
+    val colorstate = IsDarkOrLight.isDarkOrLight()
     Card(
         modifier = Modifier
             .fillMaxWidth(0.9f)
-            .height(100.dp)
+            .height(120.dp)
+            .clickable { }, elevation = 12.dp
     ) {
         Row(Modifier.fillMaxSize()) {
-            Column(Modifier.padding(start = 12.dp)) {
-                Text(text = bikeName, fontSize = 11.sp)
+            Column(
+                Modifier
+                    .padding(start = 12.dp, top = 12.dp)
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.4F)
+            ) {
+                Text(
+                    text = buildAnnotatedString {
+                        withStyle(
+                            SpanStyle(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 12.sp,
+                                color = colorstate
+                            )
+                        ) {
+                            append(bikeName)
+                        }
+                        withStyle(SpanStyle(fontSize = 12.sp, color = colorstate)) {
+                            append(" $fullbikeName")
+                        }
+                    },
+                    fontSize = 12.sp
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = buildAnnotatedString {
+                    withStyle(
+                        SpanStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                            color = colorstate
+                        )
+                    ) {
+                        append("Rp.$cost")
+                    }
+                    withStyle(SpanStyle(color = Color.Gray, fontSize = 12.sp)) {
+                        append("/day")
+                    }
+                })
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.stars),
+                        contentDescription = "stars fav",
+                        modifier = Modifier.size(10.dp, 10.dp),
+                        tint = Color.Unspecified
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(text = rating, fontSize = 10.sp)
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(text = "$reviewSize reviews", fontSize = 10.sp)
+                }
+                Spacer(modifier = Modifier.height(12.dp))
+                Box(
+                    modifier = Modifier
+                        .width(65.dp)
+                        .height(15.dp)
+                        .clip(shape = RoundedCornerShape(8.dp))
+                        .background(color = Greenify.copy(alpha = 0.4F)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = location,
+                        color = colorstate,
+                        fontSize = 8.sp
+                    )
+                }
+            }
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(end = 12.dp)
+            ) {
+                Image(
+                    painter = image,
+                    contentDescription = "recommend pictures",
+                    modifier = Modifier.size(119.dp, 91.dp)
+                )
             }
         }
     }

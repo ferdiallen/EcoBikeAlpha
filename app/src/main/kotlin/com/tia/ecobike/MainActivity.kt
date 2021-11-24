@@ -80,16 +80,14 @@ fun AdminController(nav: NavHostController) {
         NavigatorQueue.ForgotPhaseFinal.route -> {
             sysbarcolor.setStatusBarColor(Color.Transparent, darkIcons = isDarkOrLight())
         }
-        NavigatorQueue.SearchMenu.route -> {
-            sysbarcolor.setStatusBarColor(Color.Transparent, darkIcons = isDarkOrLight())
-        }
     }
     AnimatedNavHost(
         navController = nav,
         startDestination = NavigatorQueue.SpalshScreen.route
     ) {
         composable(route = NavigatorQueue.Main.route, enterTransition = {
-            slideInHorizontally(initialOffsetX = { 800 })
+            slideInHorizontally(initialOffsetX = { 900 },
+                animationSpec = tween(delayMillis = 300))
         }, exitTransition = {
             fadeOut(tween(350))
         }, popEnterTransition = {
@@ -118,12 +116,14 @@ fun AdminController(nav: NavHostController) {
         }
         composable(route = NavigatorQueue.Forgot.route,
             enterTransition = {
-                slideInHorizontally(initialOffsetX = { 800 })
+                slideInHorizontally(
+                    initialOffsetX = { 800 }
+                )
             },
             exitTransition = {
                 when (this.targetState.destination.route) {
                     NavigatorQueue.Login.route -> {
-                        slideOutHorizontally(targetOffsetX = { 500 })
+                        slideOutHorizontally(targetOffsetX = { 900 })
                     }
                     else -> fadeOut(tween(300))
                 }
@@ -176,11 +176,6 @@ fun AdminController(nav: NavHostController) {
             }
         ) {
             SplashScreens(nav)
-        }
-        composable(route = NavigatorQueue.SearchMenu.route, enterTransition = {
-            fadeIn(tween(150))
-        }) {
-            SearchScreenBike(nav)
         }
     }
 }

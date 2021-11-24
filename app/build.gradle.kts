@@ -20,8 +20,15 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -79,6 +86,9 @@ dependencies {
     implementation("com.google.accompanist:accompanist-insets:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
 
-    //Motion Layout
+    //Motion Layout - Might needed
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02")
+
+    //Coil
+    implementation("io.coil-kt:coil-compose:1.4.0")
 }
