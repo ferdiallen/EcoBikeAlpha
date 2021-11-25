@@ -1,5 +1,6 @@
 package com.tia.ecobike.navigation
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -13,7 +14,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
-import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
@@ -35,6 +35,10 @@ fun ProfileScreens() {
     var emailAddress by remember {
         mutableStateOf("")
     }
+    var isRotated by remember {
+        mutableStateOf(false)
+    }
+    val animateRotation by animateFloatAsState(targetValue = if (isRotated) 90F else - 90F)
     //prototype only
     username = "Naruto"
     emailAddress = "konohanoshinobinaruto@gmail.com"
@@ -210,36 +214,43 @@ fun ProfileScreens() {
                                     .align(CenterHorizontally)
                             )
                             Spacer(modifier = Modifier.height(14.dp))
-                            Row(
-                                modifier = Modifier
-                                    .padding(start = 24.dp)
-                                    .fillMaxWidth()
-                                    .clickable { },verticalAlignment = Alignment.CenterVertically) {
-                                Surface(
-                                    modifier = Modifier.size(35.dp),
-                                    shape = CircleShape,
-                                    color = Greenify
+                            Card(modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    isRotated = !isRotated
+                                }) {
+                                Row(
+                                    modifier = Modifier
+                                        .padding(start = 24.dp)
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
+                                    Surface(
+                                        modifier = Modifier.size(35.dp),
+                                        shape = CircleShape,
+                                        color = Greenify
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Filled.Language,
+                                            contentDescription = "For Languages",
+                                            modifier = Modifier.scale(0.6F), tint = Color.White
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.width(24.dp))
+                                    Text(
+                                        text = "Languages",
+                                        color = cs,
+                                        fontSize = 18.sp, modifier = Modifier.weight(6F)
+                                    )
                                     Icon(
-                                        imageVector = Icons.Filled.Language,
-                                        contentDescription = "For Languages",
-                                        modifier = Modifier.scale(0.6F), tint = Color.White
+                                        imageVector = Icons.Filled.ArrowBackIosNew,
+                                        contentDescription = "select language",
+                                        tint = Greenify,
+                                        modifier = Modifier
+                                            .rotate(animateRotation)
+                                            .weight(2F)
                                     )
                                 }
-                                Spacer(modifier = Modifier.width(24.dp))
-                                Text(
-                                    text = "Languages",
-                                    color = cs,
-                                    fontSize = 18.sp,modifier = Modifier.weight(6F)
-                                )
-                                Icon(
-                                    imageVector = Icons.Filled.ArrowBackIosNew,
-                                    contentDescription = "select language",
-                                    tint = Greenify,
-                                    modifier = Modifier
-                                        .rotate(-90F)
-                                        .weight(2F)
-                                )
                             }
                             Spacer(modifier = Modifier.height(12.dp))
                             Row(
@@ -261,6 +272,37 @@ fun ProfileScreens() {
                                 Spacer(modifier = Modifier.width(24.dp))
                                 Text(
                                     text = "Information",
+                                    color = cs,
+                                    fontSize = 18.sp
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.9F)
+                                    .align(CenterHorizontally),
+                                color = Color.Gray
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Row(
+                                modifier = Modifier
+                                    .padding(start = 24.dp)
+                                    .fillMaxWidth()
+                                    .clickable { }) {
+                                Surface(
+                                    modifier = Modifier.size(35.dp),
+                                    shape = CircleShape,
+                                    color = Greenify
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Logout,
+                                        contentDescription = "For Logout",
+                                        modifier = Modifier.scale(0.6F), tint = Color.White
+                                    )
+                                }
+                                Spacer(modifier = Modifier.width(24.dp))
+                                Text(
+                                    text = "Log out",
                                     color = cs,
                                     fontSize = 18.sp
                                 )

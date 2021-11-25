@@ -105,9 +105,9 @@ fun CartDisplayScreen(nav: NavHostController) {
                 Text(
                     text = "Proceed to checkout",
                     color = Color.White,
-                    modifier = Modifier.weight(5F), fontSize = 12.sp, textAlign = TextAlign.Start
+                    modifier = Modifier.weight(4F), fontSize = 12.sp, textAlign = TextAlign.Start
                 )
-                Spacer(modifier = Modifier.weight(5F))
+                Spacer(modifier = Modifier.weight(4F))
                 Icon(
                     imageVector = Icons.Filled.ArrowForwardIos,
                     contentDescription = "forward icon",
