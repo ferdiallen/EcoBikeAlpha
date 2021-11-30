@@ -13,18 +13,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.tia.ecobike.darklightcontroller.UiController
 import com.tia.ecobike.navigation.*
-import com.tia.ecobike.navigation.searchfragment.SearchScreenBike
 import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.EcoBikeTheme
 import com.tia.ecobike.ui.theme.Greenify
 
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity() {
@@ -43,6 +43,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @OptIn(ExperimentalAnimationApi::class)
@@ -86,10 +87,12 @@ fun AdminController(nav: NavHostController) {
         startDestination = NavigatorQueue.SpalshScreen.route
     ) {
         composable(route = NavigatorQueue.Main.route, enterTransition = {
-            slideInHorizontally(initialOffsetX = { 900 },
-                animationSpec = tween(delayMillis = 300))
+            slideInHorizontally(
+                initialOffsetX = { 450 },
+                animationSpec = tween(delayMillis = 10)
+            )
         }, exitTransition = {
-            fadeOut(tween(350))
+            fadeOut(tween(550))
         }, popEnterTransition = {
             fadeIn(tween(350))
         }) {
@@ -101,12 +104,18 @@ fun AdminController(nav: NavHostController) {
                     NavigatorQueue.ForgotPhaseFinal.route -> {
                         fadeIn(tween(300))
                     }
+                    NavigatorQueue.Main.route -> {
+                        slideInVertically(
+                            initialOffsetY = { 500 },
+                            animationSpec = tween(durationMillis = 500)
+                        )
+                    }
                     else -> slideInHorizontally(initialOffsetX = { 800 })
                 }
 
             },
             exitTransition = {
-                fadeOut(tween(300))
+                fadeOut(tween(100))
             },
             popEnterTransition = {
                 fadeIn(tween(500))

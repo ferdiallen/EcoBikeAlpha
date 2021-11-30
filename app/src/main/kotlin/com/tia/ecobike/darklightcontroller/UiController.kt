@@ -6,8 +6,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 object UiController {
     @Composable
-    fun setUi():SystemUiController {
-        val sysbarcolor = rememberSystemUiController()
-        return sysbarcolor
+    fun setUi(): SystemUiController {
+        return rememberSystemUiController()
     }
 }

@@ -30,13 +30,13 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalTextInputService
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
@@ -45,25 +45,26 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
 import com.tia.ecobike.R
 import com.tia.ecobike.bottomnav.BottomBarScreenHolder
 import com.tia.ecobike.bottomnav.NavGraphScaffoldBottom
 import com.tia.ecobike.darklightcontroller.IsDarkOrLight
 import com.tia.ecobike.darklightcontroller.UiController
-import com.tia.ecobike.navigators.NavigatorQueue
 import com.tia.ecobike.ui.theme.Greenify
 import com.tia.ecobike.ui.theme.backgroundLights
 
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun MainDisplays(mainNav: NavHostController) {
+fun MainDisplays(nav: NavHostController) {
     val navBottomHostController = rememberNavController()
     Scaffold(bottomBar = {
         BottomBar(nav = navBottomHostController)
     }) { paddingContent ->
         Box(Modifier.padding(bottom = paddingContent.calculateBottomPadding())) {
-            NavGraphScaffoldBottom(nav = navBottomHostController)
+            NavGraphScaffoldBottom(nav = navBottomHostController, nav)
         }
     }
 }
@@ -78,11 +79,41 @@ fun BottomBar(nav: NavHostController) {
     val stackEntry by nav.currentBackStackEntryAsState()
     val current = stackEntry?.destination
     val uiControl = UiController.setUi()
+    val darkThemeObserver = isSystemInDarkTheme()
+    fun isDarkItemsAllowed(): Boolean {
+        return when (darkThemeObserver) {
+            true -> {
+                false
+            }
+            else -> {
+                true
+            }
+        }
+    }
+
     when (current?.route) {
         BottomBarScreenHolder.Cart.route -> {
-            uiControl.setStatusBarColor(Color.Transparent, darkIcons = true)
+            uiControl.setStatusBarColor(Color.Transparent, darkIcons = isDarkItemsAllowed())
         }
-        BottomBarScreenHolder.Mains.route -> uiControl.setStatusBarColor(Greenify, darkIcons = true)
+        BottomBarScreenHolder.Mains.route -> uiControl.setStatusBarColor(
+            Greenify,
+            darkIcons = isDarkItemsAllowed()
+        )
+        BottomBarScreenHolder.EditProfile.route -> uiControl.setStatusBarColor(
+            Color.Transparent,
+            darkIcons = isDarkItemsAllowed()
+        )
+        BottomBarScreenHolder.Profile.route -> uiControl.setStatusBarColor(
+            color = Greenify, darkIcons = isDarkItemsAllowed()
+        )
+        BottomBarScreenHolder.IdentityFirst.route -> uiControl.setStatusBarColor(
+            Color.Transparent,
+            darkIcons = isDarkItemsAllowed()
+        )
+        BottomBarScreenHolder.IdentitySecond.route -> uiControl.setStatusBarColor(
+            Color.Transparent,
+            darkIcons = isDarkItemsAllowed()
+        )
     }
     BottomNavigation(
         elevation = 12.dp,
@@ -123,11 +154,10 @@ fun HomeScreens(nav: NavHostController) {
     val isdark = isSystemInDarkTheme()
     val colorState = IsDarkOrLight.isDarkOrLight()
     val focusmgr = LocalFocusManager.current
-    var isEnabledShimmer by remember {
+    val isEnabledShimmer by remember {
         mutableStateOf(false)
     }
     val stateoflist = rememberLazyListState()
-    isEnabledShimmer = true
     val shimmerEffect = listOf(
         Color.LightGray.copy(alpha = 0.6F),
         Color.LightGray.copy(alpha = 0.2F),
@@ -182,7 +212,7 @@ fun HomeScreens(nav: NavHostController) {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Hello,What are you looking for ?",
+                        text = stringResource(R.string.main_greet),
                         color = Color.White,
                         modifier = Modifier.padding(start = 24.dp)
                     )
@@ -220,7 +250,10 @@ fun HomeScreens(nav: NavHostController) {
                                         textColor = Greenify,
                                         backgroundColor = Color.White
                                     ), label = {
-                                        Text(text = "Search bike", color = Greenify)
+                                        Text(
+                                            text = stringResource(R.string.search_placeholder),
+                                            color = Greenify
+                                        )
                                     }, keyboardActions = KeyboardActions(onDone = {
                                         focusmgr.clearFocus()
                                     })
@@ -245,14 +278,14 @@ fun HomeScreens(nav: NavHostController) {
                                     fontSize = 17.sp
                                 )
                             ) {
-                                append("Hot ")
+                                append(stringResource(R.string.fr_hot))
                             }
                             withStyle(style = SpanStyle(Color.White, fontSize = 17.sp)) {
-                                append("Deals")
+                                append(stringResource(R.string.fr_deals))
                             }
                         }, modifier = Modifier.weight(3F))
                         Text(
-                            text = "View all",
+                            text = stringResource(R.string.see_all),
                             color = Color.White,
                             textAlign = TextAlign.End,
                             modifier = Modifier
@@ -295,14 +328,14 @@ fun HomeScreens(nav: NavHostController) {
                                     fontSize = 17.sp
                                 )
                             ) {
-                                append("Top ")
+                                append(stringResource(R.string.lc_fr))
                             }
                             withStyle(style = SpanStyle(colorState, fontSize = 17.sp)) {
-                                append("Locations")
+                                append(stringResource(R.string.lc_fr2))
                             }
                         }, modifier = Modifier.weight(3F))
                         Text(
-                            text = "View all",
+                            text = stringResource(R.string.see_all),
                             color = colorState,
                             textAlign = TextAlign.End,
                             modifier = Modifier
@@ -340,14 +373,14 @@ fun HomeScreens(nav: NavHostController) {
                     ) {
                         Text(text = buildAnnotatedString {
                             withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 17.sp)) {
-                                append("Suggested ")
+                                append(stringResource(R.string.fr_sg))
                             }
                             withStyle(SpanStyle(fontSize = 17.sp)) {
-                                append("Bike")
+                                append(stringResource(R.string.fr_bk))
                             }
                         })
                         Text(
-                            text = "View all",
+                            text = stringResource(R.string.see_all),
                             color = colorState,
                             textAlign = TextAlign.End,
                             modifier = Modifier
@@ -471,7 +504,7 @@ fun ColumnOfSuggested(
                         append("Rp.$cost")
                     }
                     withStyle(SpanStyle(color = Color.Gray, fontSize = 12.sp)) {
-                        append("/day")
+                        append(stringResource(R.string.per_days))
                     }
                 })
                 Spacer(modifier = Modifier.height(8.dp))
@@ -519,10 +552,4 @@ fun ColumnOfSuggested(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Previews() {
-    HomeScreens(nav = rememberNavController())
 }

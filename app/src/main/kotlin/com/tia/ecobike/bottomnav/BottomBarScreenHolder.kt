@@ -5,7 +5,6 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.tia.ecobike.navigators.NavigatorQueue
 
 sealed class BottomBarScreenHolder(
     val route: String,
@@ -16,4 +15,9 @@ sealed class BottomBarScreenHolder(
     object Cart : BottomBarScreenHolder("carts_fragment", "Cart", Icons.Filled.ShoppingCart)
     object Profile : BottomBarScreenHolder("profile_fragment", "Profile", Icons.Filled.Person)
     object SearchMenu: BottomBarScreenHolder("search_menu")
+    object History: BottomBarScreenHolder("history_menu")
+    object EditProfile : BottomBarScreenHolder("ediit_profile")
+    object ScreenBikeCode: BottomBarScreenHolder("bike_screen")
+    object IdentityFirst:BottomBarScreenHolder("first_identity")
+    object IdentitySecond:BottomBarScreenHolder("second_identity")
 }

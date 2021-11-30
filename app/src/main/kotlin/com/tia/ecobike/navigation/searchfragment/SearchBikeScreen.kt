@@ -186,7 +186,7 @@ fun NearMeList(
                 .fillMaxSize()
                 .padding(start = 14.dp, top = 4.dp)
         ) {
-            Column() {
+            Column {
                 Text(text = name, color = IsDarkOrLight.isDarkOrLight())
                 Spacer(modifier = Modifier.height(8.dp))
                 Image(

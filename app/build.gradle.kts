@@ -79,9 +79,6 @@ dependencies {
     implementation("com.google.accompanist:accompanist-insets:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
 
-    //Motion Layout - Might needed
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02")
-
     //Coil
     implementation("io.coil-kt:coil-compose:1.4.0")
 }

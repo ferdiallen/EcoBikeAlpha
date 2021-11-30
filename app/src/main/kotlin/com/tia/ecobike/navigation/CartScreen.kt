@@ -49,15 +49,17 @@ fun CartDisplayScreen(nav: NavHostController) {
                 .padding(start = 1.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBackIosNew,
-                contentDescription = "arrow back in cart",
+            IconButton(
+                onClick = {nav.popBackStack() },
                 modifier = Modifier
                     .weight(1F)
                     .size(25.dp, 24.dp)
-                    .clickable { nav.popBackStack() },
-                tint = colorstate
-            )
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBackIosNew,
+                    contentDescription = "arrow back in cart", tint = colorstate
+                )
+            }
             Text(
                 text = "Cart", color = colorstate,
                 textAlign = TextAlign.Center, fontSize = 24.sp, modifier = Modifier.weight(5F)
@@ -175,13 +177,17 @@ fun CartTransactionDetail(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Card(modifier = Modifier
-                    .size(47.dp, 98.dp)
-                    .padding(end = 12.dp),backgroundColor = Greenify) {
+                Card(
+                    modifier = Modifier
+                        .size(47.dp, 98.dp)
+                        .padding(end = 12.dp), backgroundColor = Greenify
+                ) {
                     Icon(
                         imageVector = Icons.Filled.Delete,
                         contentDescription = "Delete icon",
-                        tint = Color.White,modifier = Modifier.width(24.dp).height(24.dp)
+                        tint = Color.White, modifier = Modifier
+                            .width(24.dp)
+                            .height(24.dp)
                     )
                 }
             }
