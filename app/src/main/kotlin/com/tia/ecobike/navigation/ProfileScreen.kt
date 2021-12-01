@@ -3,6 +3,7 @@ package com.tia.ecobike.navigation
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -39,7 +40,6 @@ import com.tia.ecobike.ui.theme.Greenify
 @ExperimentalCoilApi
 @Composable
 fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
-    val cs = IsDarkOrLight.isDarkOrLight()
     var username by remember { mutableStateOf("") }
     var emailAddress by remember {
         mutableStateOf("")
@@ -67,7 +67,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                 this.transformations(CircleCropTransformation())
             }
         )
-    Box(modifier = Modifier.fillMaxWidth()) {
+    Box(modifier = Modifier.fillMaxWidth().background(Color.White)) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -115,9 +115,10 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                             .fillMaxHeight(0.92F)
                             .fillMaxWidth(0.9F)
                             .padding(top = 32.dp)
-                            .align(Alignment.Center),
+                            .align(Alignment.Center)
+                        ,
                         shape = RoundedCornerShape(12.dp),
-                        elevation = 12.dp
+                        elevation = 12.dp, backgroundColor = Color.White
                     ) {
                         Column(
                             Modifier
@@ -129,7 +130,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
                                 fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold, color = cs
+                                fontWeight = FontWeight.Bold, color = Color.Black
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
@@ -162,7 +163,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                                 Spacer(modifier = Modifier.width(24.dp))
                                 Text(
                                     text = stringResource(R.string.ed_pr),
-                                    color = cs,
+                                    color = Color.Black,
                                     fontSize = 18.sp
                                 )
                             }
@@ -186,7 +187,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                                 Spacer(modifier = Modifier.width(24.dp))
                                 Text(
                                     text = stringResource(R.string.pw_ch),
-                                    color = cs,
+                                    color = Color.Black,
                                     fontSize = 18.sp
                                 )
                             }
@@ -212,7 +213,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                                 Spacer(modifier = Modifier.width(24.dp))
                                 Text(
                                     text = stringResource(R.string.idconf),
-                                    color = cs,
+                                    color = Color.Black,
                                     fontSize = 18.sp
                                 )
                             }
@@ -238,7 +239,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                                 Spacer(modifier = Modifier.width(24.dp))
                                 Text(
                                     text = stringResource(R.string.history),
-                                    color = cs,
+                                    color = Color.Black,
                                     fontSize = 18.sp
                                 )
                             }
@@ -280,7 +281,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                                         Spacer(modifier = Modifier.width(24.dp))
                                         Text(
                                             text = stringResource(R.string.languages),
-                                            color = cs,
+                                            color = Color.Black,
                                             fontSize = 18.sp, modifier = Modifier.weight(6F)
                                         )
                                         Icon(
@@ -304,7 +305,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                                             Text(
                                                 text = stringResource(R.string.eng),
                                                 fontSize = 17.sp,
-                                                modifier = Modifier
+                                                modifier = Modifier, color = Color.Black
 
                                             )
                                             Spacer(modifier = Modifier.width(12.dp))
@@ -329,7 +330,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                                             Text(
                                                 text = stringResource(R.string.indo_language),
                                                 fontSize = 17.sp,
-                                                modifier = Modifier
+                                                modifier = Modifier, color = Color.Black
                                             )
                                             Spacer(modifier = Modifier.width(12.dp))
                                             if (!selected) {
@@ -362,7 +363,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                                 Spacer(modifier = Modifier.width(24.dp))
                                 Text(
                                     text = stringResource(R.string.info),
-                                    color = cs,
+                                    color = Color.Black,
                                     fontSize = 18.sp
                                 )
                             }
@@ -399,7 +400,7 @@ fun ProfileScreens(nav: NavHostController, mainNav: NavHostController) {
                                 Spacer(modifier = Modifier.width(24.dp))
                                 Text(
                                     text = stringResource(R.string.exit),
-                                    color = cs,
+                                    color = Color.Black,
                                     fontSize = 18.sp
                                 )
                             }

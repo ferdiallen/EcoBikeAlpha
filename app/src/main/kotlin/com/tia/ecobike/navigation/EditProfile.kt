@@ -42,7 +42,6 @@ import java.util.*
 @ExperimentalMaterialApi
 @Composable
 fun EditDisplay(nav:NavHostController) {
-    val colorstate = IsDarkOrLight.isDarkOrLight()
     var name by rememberSaveable {
         mutableStateOf("")
     }
@@ -91,7 +90,7 @@ fun EditDisplay(nav:NavHostController) {
                 Icon(
                     imageVector = Icons.Default.ArrowBackIos,
                     contentDescription = "Back Arrow",
-                    tint = colorstate
+                    tint = Color.Black
                 )
             }
             Text(
@@ -99,7 +98,7 @@ fun EditDisplay(nav:NavHostController) {
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
-                color = colorstate, modifier = Modifier.weight(7F)
+                color = Color.Black, modifier = Modifier.weight(7F)
             )
 
             Surface(
@@ -277,7 +276,7 @@ fun EditDisplay(nav:NavHostController) {
                 ),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     unfocusedBorderColor = Greenify,
-                    textColor = colorstate,
+                    textColor = Color.Black,
                 ), maxLines = 1, singleLine = true
             )
         }

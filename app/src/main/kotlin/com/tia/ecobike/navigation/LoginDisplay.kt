@@ -2,8 +2,8 @@ package com.tia.ecobike.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
@@ -42,7 +42,6 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @Composable
 fun LoginDisplays(navcon: NavHostController) {
-    val dark = isSystemInDarkTheme()
     val typho = MaterialTheme.typography
     val bringint = BringIntoViewRequester()
     val scope = rememberCoroutineScope()
@@ -55,18 +54,7 @@ fun LoginDisplays(navcon: NavHostController) {
     var isPasswordVisible by remember {
         mutableStateOf(true)
     }
-
-    fun isDark(): Color {
-        return when (dark) {
-            true -> {
-                Color.White
-            }
-            false -> {
-                Color.Black
-            }
-        }
-    }
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -125,9 +113,9 @@ fun LoginDisplays(navcon: NavHostController) {
                     imeAction = ImeAction.Done
                 ),
                 colors = TextFieldDefaults.textFieldColors(
-                    textColor = isDark(),
-                    unfocusedIndicatorColor = isDark(),
-                    focusedIndicatorColor = isDark()
+                    textColor = Color.Black,
+                    unfocusedIndicatorColor = Color.Black,
+                    focusedIndicatorColor = Color.Black
                 ), maxLines = 1, singleLine = true
             )
         }
@@ -172,14 +160,14 @@ fun LoginDisplays(navcon: NavHostController) {
                         Icon(
                             imageVector = images,
                             contentDescription = "visibility password",
-                            tint = isDark()
+                            tint = Color.Black
                         )
                     }
                 },
                 colors = TextFieldDefaults.textFieldColors(
-                    textColor = isDark(),
-                    unfocusedIndicatorColor = isDark(),
-                    focusedIndicatorColor = isDark()
+                    textColor = Color.Black,
+                    unfocusedIndicatorColor = Color.Black,
+                    focusedIndicatorColor =Color.Black
                 ),
                 maxLines = 1,
                 singleLine = true,

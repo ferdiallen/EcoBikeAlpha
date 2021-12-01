@@ -3,6 +3,7 @@ package com.tia.ecobike
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -51,17 +52,6 @@ class MainActivity : ComponentActivity() {
 fun AdminController(nav: NavHostController) {
     val sysbarcolor = UiController.setUi()
     val currentstack by nav.currentBackStackEntryAsState()
-    val uiState = isSystemInDarkTheme()
-    fun isDarkOrLight(): Boolean {
-        return when (uiState) {
-            true -> {
-                false
-            }
-            false -> {
-                true
-            }
-        }
-    }
     when (currentstack?.destination?.route) {
         NavigatorQueue.Login.route -> {
             sysbarcolor.setStatusBarColor(Greenify)
@@ -73,13 +63,13 @@ fun AdminController(nav: NavHostController) {
             sysbarcolor.setStatusBarColor(Greenify)
         }
         NavigatorQueue.Forgot.route -> {
-            sysbarcolor.setStatusBarColor(Color.Transparent, darkIcons = isDarkOrLight())
+            sysbarcolor.setStatusBarColor(Color.Transparent)
         }
         NavigatorQueue.ForgotPhase2.route -> {
-            sysbarcolor.setStatusBarColor(Color.Transparent, darkIcons = isDarkOrLight())
+            sysbarcolor.setStatusBarColor(Color.Transparent)
         }
         NavigatorQueue.ForgotPhaseFinal.route -> {
-            sysbarcolor.setStatusBarColor(Color.Transparent, darkIcons = isDarkOrLight())
+            sysbarcolor.setStatusBarColor(Color.Transparent)
         }
     }
     AnimatedNavHost(

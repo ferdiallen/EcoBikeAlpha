@@ -40,7 +40,6 @@ import com.tia.ecobike.ui.theme.Greenify
 @ExperimentalMaterialApi
 @Composable
 fun IdentityDisplayFirst(nav: NavHostController) {
-    val colorstate = IsDarkOrLight.isDarkOrLight()
     Column(modifier = Modifier.fillMaxSize()) {
         Box(
             modifier = Modifier
@@ -58,7 +57,7 @@ fun IdentityDisplayFirst(nav: NavHostController) {
                     imageVector = Icons.Default.ArrowBackIos,
                     contentDescription = "Back Arrow",
                     modifier = Modifier.align(Alignment.Center),
-                    tint = colorstate
+                    tint = Color.Black
                 )
             }
             Text(
@@ -66,14 +65,14 @@ fun IdentityDisplayFirst(nav: NavHostController) {
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp,
-                color = colorstate
+                color = Color.Black
             )
         }
 
         Text(
             text = "Please complete your document",
             fontWeight = FontWeight.Bold,
-            color = colorstate,
+            color = Color.Black,
             textAlign = TextAlign.Center,
             fontSize = 18.sp,
             modifier = Modifier
@@ -108,12 +107,12 @@ fun IdentityDisplayFirst(nav: NavHostController) {
                 Column {
                     Text(
                         text = "National ID Card",
-                        color = colorstate,
+                        color = Color.Black,
                         fontSize = 17.sp,
                     )
                     Text(
                         text = "100+ countries supported",
-                        color = colorstate,
+                        color = Color.Black,
                         fontSize = 15.sp,
                     )
                 }
@@ -155,12 +154,12 @@ fun IdentityDisplayFirst(nav: NavHostController) {
                 Column {
                     Text(
                         text = "Driver’s License",
-                        color = colorstate,
+                        color =Color.Black,
                         fontSize = 17.sp,
                     )
                     Text(
                         text = "EU, USA, Asia",
-                        color = colorstate,
+                        color = Color.Black,
                         fontSize = 15.sp,
                     )
                 }
@@ -202,12 +201,12 @@ fun IdentityDisplayFirst(nav: NavHostController) {
                 Column {
                     Text(
                         text = "Passport",
-                        color = colorstate,
+                        color = Color.Black,
                         fontSize = 17.sp,
                     )
                     Text(
                         text = "150+ countries supported",
-                        color = colorstate,
+                        color = Color.Black,
                         fontSize = 15.sp,
                     )
                 }
@@ -252,7 +251,6 @@ fun IdentityDisplayFirst(nav: NavHostController) {
 @ExperimentalMaterialApi
 @Composable
 fun IdentitySecondDisplay(nav: NavHostController) {
-    val colorstate = IsDarkOrLight.isDarkOrLight()
     var idNum by rememberSaveable {
         mutableStateOf("")
     }
@@ -269,7 +267,7 @@ fun IdentitySecondDisplay(nav: NavHostController) {
             contentAlignment = Alignment.TopCenter
         ) {
             IconButton(
-                onClick = { },
+                onClick = { nav.popBackStack()},
                 modifier = Modifier
                     .align(Alignment.TopStart)
             ) {
@@ -277,7 +275,7 @@ fun IdentitySecondDisplay(nav: NavHostController) {
                     imageVector = Icons.Default.ArrowBackIos,
                     contentDescription = "Back Arrow",
                     modifier = Modifier.align(Alignment.Center),
-                    tint = colorstate
+                    tint = Color.Black
                 )
             }
             Text(
@@ -285,7 +283,7 @@ fun IdentitySecondDisplay(nav: NavHostController) {
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp,
-                color = colorstate
+                color = Color.Black
             )
         }
 
@@ -359,7 +357,7 @@ fun IdentitySecondDisplay(nav: NavHostController) {
             ),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color.Gray,
-                textColor = colorstate,
+                textColor = Color.Black,
             ), maxLines = 1, singleLine = true
         )
 
@@ -388,7 +386,7 @@ fun IdentitySecondDisplay(nav: NavHostController) {
             ),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color.Gray,
-                textColor = colorstate,
+                textColor = Color.Black,
             ), maxLines = 1, singleLine = true
         )
 

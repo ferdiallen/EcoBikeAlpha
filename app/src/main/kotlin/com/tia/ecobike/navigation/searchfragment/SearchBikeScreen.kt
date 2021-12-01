@@ -33,7 +33,6 @@ import com.tia.ecobike.ui.theme.Greenify
 @Composable
 fun SearchScreenBike(nav: NavHostController) {
     val focusmgr = LocalFocusManager.current
-    val colorstate = IsDarkOrLight.isDarkOrLight()
     var search by remember {
         mutableStateOf("")
     }
@@ -51,7 +50,7 @@ fun SearchScreenBike(nav: NavHostController) {
             Icon(
                 imageVector = Icons.Filled.ArrowBackIos,
                 contentDescription = "back search menu",
-                tint = colorstate, modifier = Modifier
+                tint = Color.Black, modifier = Modifier
                     .clickable { nav.popBackStack() }
                     .weight(1F)
             )
@@ -95,7 +94,7 @@ fun SearchScreenBike(nav: NavHostController) {
                 Icon(
                     imageVector = Icons.Filled.Notifications,
                     contentDescription = "Badge Notif",
-                    tint = colorstate
+                    tint = Color.Black
                 )
             }
             Spacer(modifier = Modifier.width(24.dp))
@@ -108,7 +107,7 @@ fun SearchScreenBike(nav: NavHostController) {
         ) {
             Text(
                 text = "Latest search",
-                color = colorstate,
+                color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
@@ -121,7 +120,7 @@ fun SearchScreenBike(nav: NavHostController) {
             Spacer(modifier = Modifier.height(28.dp))
             Text(
                 text = "Near Me",
-                color = colorstate,
+                color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
@@ -152,12 +151,12 @@ fun LatestSearchLists(name: String) {
         Icon(
             imageVector = Icons.Filled.History,
             contentDescription = "clock history",
-            tint = IsDarkOrLight.isDarkOrLight(), modifier = Modifier.weight(1F)
+            tint = Color.Black, modifier = Modifier.weight(1F)
         )
         Spacer(modifier = Modifier.width(29.dp))
         Text(
             text = name,
-            color = IsDarkOrLight.isDarkOrLight(),
+            color = Color.Black,
             fontSize = 15.sp,
             modifier = Modifier.weight(
                 11F
@@ -166,7 +165,7 @@ fun LatestSearchLists(name: String) {
         Icon(
             imageVector = Icons.Filled.Close,
             contentDescription = "delete history",
-            tint = IsDarkOrLight.isDarkOrLight(), modifier = Modifier.weight(1F)
+            tint = Color.Black, modifier = Modifier.weight(1F)
         )
         Spacer(modifier = Modifier.width(22.dp))
     }
@@ -187,7 +186,7 @@ fun NearMeList(
                 .padding(start = 14.dp, top = 4.dp)
         ) {
             Column {
-                Text(text = name, color = IsDarkOrLight.isDarkOrLight())
+                Text(text = name, color = Color.Black)
                 Spacer(modifier = Modifier.height(8.dp))
                 Image(
                     painter = images,
@@ -203,7 +202,7 @@ fun NearMeList(
                 Text(
                     text = "Sunan Kalijaga Street\n" +
                             "Dinoyo, Malang City, East Java",
-                    color = IsDarkOrLight.isDarkOrLight(),
+                    color = Color.Black,
                     fontSize = 12.sp
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -216,7 +215,7 @@ fun NearMeList(
                         contentScale = ContentScale.FillBounds
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = rating, fontSize = 10.sp, color = IsDarkOrLight.isDarkOrLight())
+                    Text(text = rating, fontSize = 10.sp, color = Color.Black)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
@@ -237,7 +236,7 @@ fun NearMeList(
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = "$availability Available",
-                        color = IsDarkOrLight.isDarkOrLight(),
+                        color = Color.Black,
                         fontSize = 10.sp, modifier = Modifier.weight(9F)
                     )
                     Box(

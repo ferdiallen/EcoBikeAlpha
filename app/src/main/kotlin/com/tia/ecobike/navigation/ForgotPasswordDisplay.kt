@@ -55,18 +55,6 @@ fun ForgotDisplay(nav: NavHostController) {
         mutableStateOf("")
     }
 
-    val isSystemDark = isSystemInDarkTheme()
-    fun isDark(): Color {
-        return when (isSystemDark) {
-            true -> {
-                Color.White
-            }
-            false -> {
-                Color.Black
-            }
-        }
-    }
-
     fun whichSelected(data: Boolean): Color {
         return when (data) {
             true -> {
@@ -80,6 +68,7 @@ fun ForgotDisplay(nav: NavHostController) {
     Column(
         Modifier
             .fillMaxSize()
+            .background(Color.White)
     ) {
         Box(
             modifier = Modifier
@@ -96,13 +85,13 @@ fun ForgotDisplay(nav: NavHostController) {
                     imageVector = Icons.Default.ArrowBackIos,
                     contentDescription = "Back Arrow",
                     modifier = Modifier.align(Center),
-                    tint = isDark()
+                    tint = Color.Black
                 )
             }
             Text(
                 text = "Forgot Password",
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center, fontSize = 18.sp, color = isDark()
+                textAlign = TextAlign.Center, fontSize = 18.sp, color = Color.Black
             )
         }
         Spacer(modifier = Modifier.height(44.dp))
@@ -206,8 +195,8 @@ fun ForgotDisplay(nav: NavHostController) {
                     .height(55.dp)
                     .align(CenterHorizontally),
                 colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = isDark(),
-                    unfocusedIndicatorColor = isDark(), textColor = isDark()
+                    focusedIndicatorColor = Color.Black,
+                    unfocusedIndicatorColor = Color.Black, textColor = Color.Black
                 ),
                 maxLines = 1,
                 singleLine = true,
@@ -237,8 +226,8 @@ fun ForgotDisplay(nav: NavHostController) {
                     .height(55.dp)
                     .align(CenterHorizontally),
                 colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = isDark(),
-                    unfocusedIndicatorColor = isDark(), textColor = isDark()
+                    focusedIndicatorColor = Color.Black,
+                    unfocusedIndicatorColor = Color.Black, textColor = Color.Black
                 ),
                 maxLines = 1,
                 singleLine = true,
@@ -279,28 +268,17 @@ fun ForgotDisplayPhase2(nav: NavHostController) {
     var verifcodes4 by rememberSaveable {
         mutableStateOf(cumulativeCodes[3])
     }
-    val isSystemDark = isSystemInDarkTheme()
+
     fun isCompletedCode(): Boolean {
         return (verifcodes.isNotEmpty()
                 && verifcodes2.isNotEmpty()
                 && verifcodes3.isNotEmpty()
                 && verifcodes4.isNotEmpty())
     }
-
-    fun isDark(): Color {
-        return when (isSystemDark) {
-            true -> {
-                Color.White
-            }
-            false -> {
-                Color.Black
-            }
-        }
-    }
-
     Column(
         Modifier
             .fillMaxSize()
+            .background(Color.White)
     ) {
         Box(
             modifier = Modifier
@@ -317,13 +295,13 @@ fun ForgotDisplayPhase2(nav: NavHostController) {
                     imageVector = Icons.Default.ArrowBackIos,
                     contentDescription = "Back Arrow",
                     modifier = Modifier.align(Center),
-                    tint = isDark()
+                    tint = Color.Black
                 )
             }
             Text(
                 text = "Verify Your Email",
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center, fontSize = 18.sp, color = isDark()
+                textAlign = TextAlign.Center, fontSize = 18.sp, color = Color.Black
             )
         }
         Spacer(modifier = Modifier.height(44.dp))
@@ -372,7 +350,7 @@ fun ForgotDisplayPhase2(nav: NavHostController) {
                     imeAction = ImeAction.Done
                 ),
                 colors = TextFieldDefaults.textFieldColors(
-                    textColor = isDark(),
+                    textColor = Color.Black,
                     unfocusedIndicatorColor = Greenify,
                     focusedIndicatorColor = Greenify,
                     backgroundColor = Color.Transparent
@@ -389,7 +367,7 @@ fun ForgotDisplayPhase2(nav: NavHostController) {
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 colors = TextFieldDefaults.textFieldColors(
-                    textColor = isDark(),
+                    textColor = Color.Black,
                     unfocusedIndicatorColor = Greenify,
                     focusedIndicatorColor = Greenify,
                     backgroundColor = Color.Transparent
@@ -406,7 +384,7 @@ fun ForgotDisplayPhase2(nav: NavHostController) {
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 colors = TextFieldDefaults.textFieldColors(
-                    textColor = isDark(),
+                    textColor = Color.Black,
                     unfocusedIndicatorColor = Greenify,
                     focusedIndicatorColor = Greenify,
                     backgroundColor = Color.Transparent
@@ -423,7 +401,7 @@ fun ForgotDisplayPhase2(nav: NavHostController) {
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 colors = TextFieldDefaults.textFieldColors(
-                    textColor = isDark(),
+                    textColor = Color.Black,
                     unfocusedIndicatorColor = Greenify,
                     focusedIndicatorColor = Greenify,
                     backgroundColor = Color.Transparent
@@ -447,7 +425,7 @@ fun ForgotDisplayPhase2(nav: NavHostController) {
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor =
                     if (isCompletedCode()) Color.Green
-                    else GreyLight
+                    else Color.Gray
                 ),
                 enabled = isCompletedCode()
             ) {
@@ -473,21 +451,11 @@ fun ForgotDisplayFinalPhase(nav: NavHostController) {
     var visibility2 by remember {
         mutableStateOf(true)
     }
-    val isSystemDark = isSystemInDarkTheme()
-    fun isDark(): Color {
-        return when (isSystemDark) {
-            true -> {
-                Color.White
-            }
-            false -> {
-                Color.Black
-            }
-        }
-    }
 
     Column(
         Modifier
             .fillMaxSize()
+            .background(Color.White)
     ) {
         Box(
             modifier = Modifier
@@ -504,13 +472,13 @@ fun ForgotDisplayFinalPhase(nav: NavHostController) {
                     imageVector = Icons.Default.ArrowBackIos,
                     contentDescription = "Back Arrow",
                     modifier = Modifier.align(Center),
-                    tint = isDark()
+                    tint = Color.Black
                 )
             }
             Text(
                 text = "Create New Password",
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center, fontSize = 18.sp, color = isDark()
+                textAlign = TextAlign.Center, fontSize = 18.sp, color = Color.Black
             )
         }
         Spacer(modifier = Modifier.height(44.dp))
@@ -560,8 +528,8 @@ fun ForgotDisplayFinalPhase(nav: NavHostController) {
                 .height(55.dp)
                 .align(CenterHorizontally),
             colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = isDark(),
-                unfocusedIndicatorColor = isDark(), textColor = isDark()
+                focusedIndicatorColor = Color.Black,
+                unfocusedIndicatorColor = Color.Black, textColor = Color.Black
             ),
             maxLines = 1,
             singleLine = true,
@@ -573,10 +541,11 @@ fun ForgotDisplayFinalPhase(nav: NavHostController) {
                     contentDescription = "pw icon",
                     modifier = Modifier.clickable {
                         visibility1 = !visibility1
-                    }, tint = isDark()
+                    }, tint = Color.Black
                 )
             },
-            visualTransformation = if (visibility1) PasswordVisualTransformation() else VisualTransformation.None
+            visualTransformation = if (visibility1) PasswordVisualTransformation()
+            else VisualTransformation.None
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -599,8 +568,8 @@ fun ForgotDisplayFinalPhase(nav: NavHostController) {
                 .height(55.dp)
                 .align(CenterHorizontally),
             colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = isDark(),
-                unfocusedIndicatorColor = isDark(), textColor = isDark()
+                focusedIndicatorColor = Color.Black,
+                unfocusedIndicatorColor = Color.Black, textColor = Color.Black
             ),
             maxLines = 1,
             singleLine = true,
@@ -611,7 +580,7 @@ fun ForgotDisplayFinalPhase(nav: NavHostController) {
                     else Icons.Default.VisibilityOff,
                     contentDescription = "pw confirm icon", modifier = Modifier.clickable {
                         visibility2 = !visibility2
-                    }, tint = isDark()
+                    }, tint = Color.Black
                 )
             },
             visualTransformation = if (visibility2) PasswordVisualTransformation() else VisualTransformation.None
@@ -623,11 +592,13 @@ fun ForgotDisplayFinalPhase(nav: NavHostController) {
             horizontalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = { nav.navigate(NavigatorQueue.Login.route){
-                    popUpTo(NavigatorQueue.Login.route){
-                        inclusive = true
+                onClick = {
+                    nav.navigate(NavigatorQueue.Login.route) {
+                        popUpTo(NavigatorQueue.Login.route) {
+                            inclusive = true
+                        }
                     }
-                } }, modifier = Modifier
+                }, modifier = Modifier
                     .fillMaxWidth(0.4F)
                     .clip(RoundedCornerShape(20.dp))
                     .align(Bottom), colors = ButtonDefaults.buttonColors(backgroundColor = Greenify)

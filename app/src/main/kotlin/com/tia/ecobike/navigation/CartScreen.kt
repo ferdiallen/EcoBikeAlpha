@@ -36,7 +36,6 @@ import kotlin.math.roundToInt
 @ExperimentalMaterialApi
 @Composable
 fun CartDisplayScreen(nav: NavHostController) {
-    val colorstate = IsDarkOrLight.isDarkOrLight()
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -57,11 +56,11 @@ fun CartDisplayScreen(nav: NavHostController) {
             ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBackIosNew,
-                    contentDescription = "arrow back in cart", tint = colorstate
+                    contentDescription = "arrow back in cart", tint = Color.Black
                 )
             }
             Text(
-                text = "Cart", color = colorstate,
+                text = "Cart", color = Color.Black,
                 textAlign = TextAlign.Center, fontSize = 24.sp, modifier = Modifier.weight(5F)
             )
             Icon(
@@ -69,7 +68,7 @@ fun CartDisplayScreen(nav: NavHostController) {
                 contentDescription = "menu borgir",
                 modifier = Modifier.weight(
                     1F
-                ), tint = colorstate
+                ), tint = Color.Black
             )
         }
         Spacer(modifier = Modifier.height(52.dp))
@@ -157,7 +156,6 @@ fun CartTransactionDetail(
     val sizeToIncrease by animateFloatAsState(targetValue = sizeForNumber)
     val sizeToIncreaseSubTotal by animateFloatAsState(targetValue = sizeForSubTotal)
     val sizeAnimateCard by animateDpAsState(targetValue = sizeOfCards)
-    val colorstate = IsDarkOrLight.isDarkOrLight()
     val animateArrowRotation by animateFloatAsState(targetValue = arrowRotation)
     Column(
         modifier = Modifier
@@ -206,14 +204,14 @@ fun CartTransactionDetail(
                     Row(Modifier.fillMaxWidth()) {
                         Text(
                             text = "No Transaksi",
-                            color = colorstate,
+                            color = Color.Black,
                             modifier = Modifier
                                 .weight(2F),
                             fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = transactNum,
-                            color = colorstate,
+                            color = Color.Black,
                             modifier = Modifier
                                 .weight(sizeToIncrease)
                                 .clickable {
@@ -232,11 +230,11 @@ fun CartTransactionDetail(
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Divider(color = colorstate, thickness = 1.dp)
+                    Divider(color = Color.Black, thickness = 1.dp)
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Station Location",
-                        color = colorstate,
+                        color =Color.Black,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -257,12 +255,12 @@ fun CartTransactionDetail(
                         Icon(
                             imageVector = Icons.Filled.PinDrop,
                             contentDescription = "Locations",
-                            tint = colorstate, modifier = Modifier.weight(1F)
+                            tint = Color.Black, modifier = Modifier.weight(1F)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = stationName,
-                            color = colorstate,
+                            color = Color.Black,
                             fontSize = 12.sp,
                             modifier = Modifier.weight(
                                 8F
@@ -281,18 +279,18 @@ fun CartTransactionDetail(
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Divider(thickness = 1.dp, color = colorstate)
+                    Divider(thickness = 1.dp, color = Color.Black)
                     Spacer(modifier = Modifier.height(8.dp))
                     Row {
                         Text(
                             text = "Sub Total",
                             modifier = Modifier.weight(2.7F),
                             fontWeight = FontWeight.Bold,
-                            color = colorstate
+                            color = Color.Black
                         )
                         Text(
                             text = "Rp. $subTotal",
-                            color = colorstate,
+                            color = Color.Black,
                             modifier = Modifier
                                 .weight(sizeToIncreaseSubTotal)
                                 .clickable {
@@ -310,11 +308,11 @@ fun CartTransactionDetail(
                             text = "Duration",
                             modifier = Modifier.weight(3.5F),
                             fontWeight = FontWeight.Bold,
-                            color = colorstate
+                            color = Color.Black
                         )
                         Text(
                             text = duration,
-                            color = colorstate,
+                            color = Color.Black,
                             modifier = Modifier
                                 .weight(1F),
                             fontWeight = FontWeight.Bold,
@@ -322,7 +320,7 @@ fun CartTransactionDetail(
                         )
                     }
                     Spacer(modifier = Modifier.height(4.dp))
-                    Divider(thickness = 1.dp, color = colorstate)
+                    Divider(thickness = 1.dp, color = Color.Black)
                     Spacer(modifier = Modifier.height(8.dp))
                     Row {
                         Card(
@@ -342,16 +340,16 @@ fun CartTransactionDetail(
                             Text(
                                 text = bikeVendor,
                                 fontSize = 12.sp,
-                                color = colorstate,
+                                color = Color.Black,
                                 fontWeight = FontWeight.Bold
                             )
                             Spacer(modifier = Modifier.height(4.dp))
-                            Text(text = bikeType, fontSize = 11.sp, color = colorstate)
+                            Text(text = bikeType, fontSize = 11.sp, color = Color.Black)
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
                                 text = "Rp.$perHourPrice/hour",
                                 fontSize = 10.sp,
-                                color = colorstate,
+                                color = Color.Black,
                                 fontWeight = FontWeight.Bold
                             )
                         }

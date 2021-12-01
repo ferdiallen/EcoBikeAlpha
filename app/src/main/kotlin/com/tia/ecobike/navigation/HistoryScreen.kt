@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.tia.ecobike.R
-import com.tia.ecobike.darklightcontroller.IsDarkOrLight
 import com.tia.ecobike.ui.theme.Greenify
 import kotlin.math.roundToInt
 
@@ -45,7 +44,6 @@ import kotlin.math.roundToInt
 @Composable
 fun HistoryDisplay(nav: NavHostController) {
     val isSelected = BooleanArray(2)
-    val colorstate = IsDarkOrLight.isDarkOrLight()
     isSelected[0] = true
     var select1 by rememberSaveable {
         mutableStateOf(isSelected[0])
@@ -253,7 +251,6 @@ fun TransactionDetail(
     }
     val sizeToIncrease by animateFloatAsState(targetValue = sizeForNumber)
     val sizeAnimateCard by animateDpAsState(targetValue = sizeOfCards)
-    val colorstate = IsDarkOrLight.isDarkOrLight()
     val animateArrowRotation by animateFloatAsState(targetValue = arrowRotation)
     Column(
         modifier = Modifier
@@ -302,14 +299,14 @@ fun TransactionDetail(
                     Row(Modifier.fillMaxWidth()) {
                         Text(
                             text = stringResource(R.string.no_transact),
-                            color = colorstate,
+                            color = Color.Black,
                             modifier = Modifier
                                 .weight(2F),
                             fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = transactNum,
-                            color = colorstate,
+                            color = Color.Black,
                             modifier = Modifier
                                 .weight(sizeToIncrease)
                                 .clickable {
@@ -328,7 +325,7 @@ fun TransactionDetail(
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Divider(color = colorstate, thickness = 1.dp)
+                    Divider(color = Color.Black, thickness = 1.dp)
                     Spacer(modifier = Modifier.height(8.dp))
                     Row {
                         Card(
@@ -346,7 +343,7 @@ fun TransactionDetail(
                         Column {
                             Text(
                                 text = stationName,
-                                color = colorstate,
+                                color = Color.Black,
                                 fontWeight = FontWeight.Bold
                             )
                             Row(
@@ -365,7 +362,7 @@ fun TransactionDetail(
                                 }) {
                                 Text(
                                     text = stationLoc,
-                                    color = colorstate,
+                                    color = Color.Black,
                                     fontSize = 8.sp,
                                     modifier = Modifier.weight(
                                         8F
@@ -381,37 +378,29 @@ fun TransactionDetail(
                                         .rotate(animateArrowRotation)
                                 )
                             }
-//                            Spacer(modifier = Modifier.height(4.dp))
-//                            Text(
-//                                text = date,
-//                                color = colorstate,
-//                                fontSize = 12.sp,
-//                                modifier = Modifier.weight(
-//                                    8F
-//                                )
-//                            )
+//
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Divider(thickness = 1.dp, color = colorstate)
+                    Divider(thickness = 1.dp, color = Color.Black)
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = stringResource(R.string.detail),
                         modifier = Modifier.weight(2.7F),
                         fontWeight = FontWeight.Bold,
-                        color = colorstate
+                        color = Color.Black
                     )
                     Row {
                         Text(
                             text = stringResource(R.string.rent_time),
                             fontSize = 10.sp,
-                            color = colorstate
+                            color = Color.Black
                         )
                         Spacer(modifier = Modifier.width(39.dp))
                         Text(
                             text = ":$rentDate ($rentTime)",
                             fontSize = 10.sp,
-                            color = colorstate,
+                            color = Color.Black,
                             overflow = TextOverflow.Ellipsis, maxLines = 1
                         )
                     }
@@ -419,13 +408,13 @@ fun TransactionDetail(
                         Text(
                             text = stringResource(R.string.return_time),
                             fontSize = 10.sp,
-                            color = colorstate
+                            color = Color.Black
                         )
                         Spacer(modifier = Modifier.width(30.dp))
                         Text(
                             text = ":$returnDate ($returnTime)",
                             fontSize = 10.sp,
-                            color = colorstate,
+                            color = Color.Black,
                             overflow = TextOverflow.Ellipsis, maxLines = 1
                         )
                     }

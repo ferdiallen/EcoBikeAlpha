@@ -151,8 +151,6 @@ fun RowScope.AddItem(
 
 @Composable
 fun HomeScreens(nav: NavHostController) {
-    val isdark = isSystemInDarkTheme()
-    val colorState = IsDarkOrLight.isDarkOrLight()
     val focusmgr = LocalFocusManager.current
     val isEnabledShimmer by remember {
         mutableStateOf(false)
@@ -180,7 +178,7 @@ fun HomeScreens(nav: NavHostController) {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(if (isdark) Color.Black else backgroundLights)
+            .background(Color.White)
     ) {
         AnimatedVisibility(
             visible = stateoflist.firstVisibleItemIndex == 0,
@@ -323,20 +321,20 @@ fun HomeScreens(nav: NavHostController) {
                         Text(text = buildAnnotatedString {
                             withStyle(
                                 style = SpanStyle(
-                                    color = colorState,
+                                    color = Color.Black,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 17.sp
                                 )
                             ) {
                                 append(stringResource(R.string.lc_fr))
                             }
-                            withStyle(style = SpanStyle(colorState, fontSize = 17.sp)) {
+                            withStyle(style = SpanStyle(Color.Black, fontSize = 17.sp)) {
                                 append(stringResource(R.string.lc_fr2))
                             }
                         }, modifier = Modifier.weight(3F))
                         Text(
                             text = stringResource(R.string.see_all),
-                            color = colorState,
+                            color = Color.Black,
                             textAlign = TextAlign.End,
                             modifier = Modifier
                                 .weight(1F)
@@ -381,7 +379,7 @@ fun HomeScreens(nav: NavHostController) {
                         })
                         Text(
                             text = stringResource(R.string.see_all),
-                            color = colorState,
+                            color = Color.Black,
                             textAlign = TextAlign.End,
                             modifier = Modifier
                                 .weight(1F)
@@ -461,7 +459,6 @@ fun ColumnOfSuggested(
     location: String,
     image: Painter
 ) {
-    val colorstate = IsDarkOrLight.isDarkOrLight()
     Card(
         modifier = Modifier
             .fillMaxWidth(0.9f)
@@ -481,12 +478,12 @@ fun ColumnOfSuggested(
                             SpanStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 12.sp,
-                                color = colorstate
+                                color = Color.Black
                             )
                         ) {
                             append(bikeName)
                         }
-                        withStyle(SpanStyle(fontSize = 12.sp, color = colorstate)) {
+                        withStyle(SpanStyle(fontSize = 12.sp, color = Color.Black)) {
                             append(" $fullbikeName")
                         }
                     },
@@ -498,7 +495,7 @@ fun ColumnOfSuggested(
                         SpanStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
-                            color = colorstate
+                            color = Color.Black
                         )
                     ) {
                         append("Rp.$cost")
@@ -531,7 +528,7 @@ fun ColumnOfSuggested(
                 ) {
                     Text(
                         text = location,
-                        color = colorstate,
+                        color = Color.Black,
                         fontSize = 8.sp
                     )
                 }
